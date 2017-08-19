@@ -1,0 +1,30 @@
+{
+  "id": "com.sprut.homekit",
+  "sdk": 2,
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "name": {
+    "en": "HomeyKit",
+    "nl": "HomeyKit"
+  },
+  "description": {
+    "en": "Homekit support for Homey",
+    "nl": "Homekit ondersteuning voor Homey"
+  },
+  "tags": {
+    "en": ["homekit", "siri", "iOS"],
+    "nl": ["homekit", "siri", "iOS"]
+  },
+  "category": "appliances",
+  "version": "2.0.0",
+  "compatibility": ">=1.5.0",
+  "author": {
+    "name": "Sprut",
+    "email": "sprut.1@me.com"
+  },
+  "images": {
+    "large": "./assets/images/large.png",
+    "small": "./assets/images/small.png"
+  }
+}

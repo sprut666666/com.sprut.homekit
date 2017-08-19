@@ -1,0 +1,25 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var categories;
+(function (categories) {
+    categories[categories["other"] = 1] = "other";
+    categories[categories["bridge"] = 2] = "bridge";
+    categories[categories["fan"] = 3] = "fan";
+    categories[categories["garage"] = 4] = "garage";
+    categories[categories["lightBulb"] = 5] = "lightBulb";
+    categories[categories["doorLock"] = 6] = "doorLock";
+    categories[categories["outlet"] = 7] = "outlet";
+    categories[categories["switch"] = 8] = "switch";
+    categories[categories["thermostat"] = 9] = "thermostat";
+    categories[categories["sensor"] = 10] = "sensor";
+    categories[categories["securitySystem"] = 11] = "securitySystem";
+    categories[categories["door"] = 12] = "door";
+    categories[categories["window"] = 13] = "window";
+    categories[categories["windowCovering"] = 14] = "windowCovering";
+    categories[categories["programmableSwitch"] = 15] = "programmableSwitch";
+    categories[categories["rangeExtender"] = 16] = "rangeExtender";
+    categories[categories["IPCamera"] = 17] = "IPCamera";
+    categories[categories["videoDoorBell"] = 18] = "videoDoorBell";
+    categories[categories["airPurifier"] = 19] = "airPurifier";
+})(categories = exports.categories || (exports.categories = {}));
+;
