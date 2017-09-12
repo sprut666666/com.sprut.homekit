@@ -24,7 +24,7 @@
       <!-- DEVICES PAGE -->
       <div class="columns is-multiline" v-if="currentPage == 'devices'">
         <input v-model="search" class="input" style="margin-left:10px;margin-right:10px;" type="text" placeholder="Filter...">
-        <div class="column is-3 " v-for="device in filteredItems" >
+        <div class="column is-3 " v-for="device in filteredItems">
           <div class="box">
             <center>
               <img :src="device.icon" style="height:30px;width:auto;"/><br/>
@@ -122,8 +122,8 @@
             console.log('Device added');
           },
           async removeDevice(device) {
-            var i;
-            for (i = 0; i < this.devicesPaired.length; i++) {
+
+            for (let i = 0; i < this.devicesPaired.length; i++) {
               if (this.devicesPaired[i] && this.devicesPaired[i].id == device.id) {
                 this.devicesPaired.splice(i, 1);
               }
@@ -150,6 +150,10 @@
             }
 
             return false;
+          },
+          filterArray(device) {
+            if (device.class == "light" || device.class == "socket" || device.class == "sensor" || device.class == "lock")
+              return device
           }
         },
         mounted() {

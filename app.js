@@ -1,9 +1,9 @@
 "use strict";
 
-const debug = false;
+const debug = true;
 
 // Enable TCP debug
-//process.env.DEBUG = 'TCP';
+// process.env.DEBUG = 'TCP';
 
 const Homey = require('homey')
 const { HomeyAPI } = require('./lib/athom-api.js')
@@ -12,6 +12,7 @@ const Homekit = require('./lib/homekit.js')
 
 
 let allDevices = {},
+    allPairedDevices = [],
     server = {},
     log = [];
 
@@ -33,7 +34,8 @@ if (debug) {
 }
 
 
-class HomekitApp extends Homey.App {
+class HomekitApp extends Homey.App
+{
   // Get homey object
   getApi() {
     if (!this.api) {
@@ -52,9 +54,8 @@ class HomekitApp extends Homey.App {
   }
 
   // Start server function
-  async startingServer() {
-
-
+  async startingServer()
+  {
     // Get the homey object
     const api = await this.getApi();
     // Get system info
@@ -66,14 +67,52 @@ class HomekitApp extends Homey.App {
     server = await Homekit.configServer(systeminfo);
 
     // Loop all devices
-    const allPairedDevices = await Homey.ManagerSettings.get('pairedDevices') || [];
-    var arrayLength = await allPairedDevices.length;
+    allPairedDevices = await Homey.ManagerSettings.get('pairedDevices') || [];
+    let deviceForDel = [];
 
-    for (var i = 0; i < arrayLength; i++) {
+    for (let i = 0; i < allPairedDevices.length; i++)
+    {
       // If device has the class light
-      await this.addDevice(allPairedDevices[i]);
+      let device = allPairedDevices[i];
+
+      if (device.id in allDevices)
+      {
+        console.log(device.name + ' - device found.', 'info');
+        await this.addDevice(device,true);
+      }
+      else
+      {
+        console.log(device.name + ' - device not found.', 'info');
+        deviceForDel.push(device);
+      }
     }
-    if(arrayLength){
+
+    if (deviceForDel.length)
+    {
+      for (let i = 0; i < deviceForDel.length; i++)
+      {
+        let device = deviceForDel[i];
+
+        for (let i = 0; i < allPairedDevices.length; i++)
+        {
+          if (allPairedDevices[i] && allPairedDevices[i].id == device.id)
+          {
+            allPairedDevices.splice(i, 1);
+          }
+        }
+      }
+
+      await Homey.ManagerSettings.set('pairedDevices', allPairedDevices, (err, result) =>
+      {
+        if (err)
+          return Homey.alert(err);
+      });
+
+      console.log('Delete paired devices! => ' + deviceForDel.length, 'success');
+    }
+
+    if(allPairedDevices.length)
+    {
       await console.log('Added all devices..done here!', 'success');
     }
     else{
@@ -83,31 +122,74 @@ class HomekitApp extends Homey.App {
     // Start the server
     await server.startServer();
     console.log('Homekit server started.', 'success');
+
+    api.devices.on('device.delete', deviceID =>
+    {
+      allPairedDevices = Homey.ManagerSettings.get('pairedDevices') || [];
+
+      let deletePairedDevices = false;
+
+      for (let i = 0; i < allPairedDevices.length; i++)
+      {
+        if (allPairedDevices[i] && allPairedDevices[i].id == deviceID)
+        {
+          allPairedDevices.splice(i, 1);
+          deletePairedDevices = true;
+        }
+      }
+
+      if (deletePairedDevices)
+      {
+        server.removeAccessory(server.config.getHASID(deviceID));
+
+         Homey.ManagerSettings.set('pairedDevices', allPairedDevices, (err, result) =>
+        {
+          if (err)
+            return Homey.alert(err);
+        });
+
+        console.log('Delete device! => ' + deviceID, 'success');
+
+      }
+
+    });
+
   }
 
-  async onInit() {
+  async onInit()
+  {
     // Start the server
     await this.startingServer()
       .then(console.log('Homekit server starting!', 'info'))
       .catch(this.error);
-
   }
 
-  async addDevice(device) {
-    await this.getDevices();
+
+
+  async addDevice(device,noCheck)
+  {
+    if (noCheck === undefined)
+    {
+        await this.getDevices();
+        console.log(device.name + ' getDevices() ', 'info');
+    }
 
     console.log(device.name + ' class: ' + allDevices[device.id].class, 'info');
 
     let light = await Homekit.createDevice(allDevices[device.id], server.config.getHASID(device.id));
     await server.addAccessory(light);
-    
+
     console.log(device.name + ' is added!', 'success');
 
   }
 
-  async deleteDevice(device) {
+  async deleteDevice(device)
+  {
     console.log('Trying to remove device ' + device.id, "info");
+
+    allDevices[device.id].removeAllListeners('$state');
     server.removeAccessory(server.config.getHASID(device.id));
+
     console.log(device.name + ' is removed!', 'success');
   }
 

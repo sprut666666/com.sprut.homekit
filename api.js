@@ -37,7 +37,7 @@ module.exports = [
     method: 'DELETE',
     path: '/devices/delete',
     fn: function(args, callback) {
-      console.log('API call received, trying to remove' + args.body.name, 'info');
+      console.log('API call received, trying to remove ' + args.body.name, 'info');
       Homey.app.deleteDevice(args.body).then(res => {
           callback(null, true);
         })

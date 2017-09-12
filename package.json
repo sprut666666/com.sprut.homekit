@@ -1,12 +1,12 @@
 {
   "name": "com.sprut.homekit",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Homekit app for Homey",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Sprut",
+  "author": "Bas Jansen",
   "license": "ISC",
   "dependencies": {
     "has-node": "github:abedinpour/HAS"
