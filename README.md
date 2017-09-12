@@ -53,7 +53,9 @@ Any other feature request can be added there as well.
 Sprut
 
 [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
+
 or
+
 [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666)
 
 ---
