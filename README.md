@@ -51,6 +51,7 @@ Any other feature request can be added there as well.
 ### Donate
 
 Sprut
+
 [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666)
 
 ---
