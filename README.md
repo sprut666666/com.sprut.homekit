@@ -51,8 +51,9 @@ Any other feature request can be added there as well.
 ### Donate
 
 Sprut
-<iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=buyer&targets=&targets-hint=%D0%9D%D0%B0%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BE%D0%B2%2C%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%D0%B0%20%D0%B8%20%D1%82.%D0%B4.&default-sum=1000&button-text=13&payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410014789265242" width="450" height="210" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 
+[![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
+or
 [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666)
 
 ---
