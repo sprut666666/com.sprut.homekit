@@ -1,6 +1,8 @@
 # HomeKit for Homey
 
 You can use only com.sprut.homekit or com.swttt.homekit.
+Thanks for [swttt](https://github.com/swttt)(the author of [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit))
+
 
 With this app you can pair Homey to HomeKit and control your devices using Siri.
 
@@ -43,8 +45,6 @@ For now only the following types are supported:
 ### Issues & Feature requests
 
 If you found any bugs you can create an issue on [github](https://github.com/sprut666666/com.sprut.homekit) .
-
-Thanks for [swttt](https://github.com/swttt)(the author of [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit))
 
 Any other feature request can be added there as well.
 
