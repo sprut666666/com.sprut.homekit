@@ -122,8 +122,8 @@
             console.log('Device added');
           },
           async removeDevice(device) {
-
-            for (let i = 0; i < this.devicesPaired.length; i++) {
+            var i;
+            for (i = 0; i < this.devicesPaired.length; i++) {
               if (this.devicesPaired[i] && this.devicesPaired[i].id == device.id) {
                 this.devicesPaired.splice(i, 1);
               }
