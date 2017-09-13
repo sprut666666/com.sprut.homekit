@@ -14,7 +14,7 @@ After Homey is paired, go to settings->HomeKit. There select the devices you wan
 
 It might take a few sec (sometimes even longer) until your device shows up in your Home app.
 
-For now only the following classes are supported:
+For now only the following types are supported:
 - Light (On-off, dim, Temperature control, RGB)
 - Fan
 - Switch
