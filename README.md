@@ -1,5 +1,7 @@
 # HomeKit for Homey
 
+You can use only com.sprut.homekit or com.swttt.homekit.
+
 With this app you can pair Homey to HomeKit and control your devices using Siri.
 
 After installing the app grab your iPhone or iPad.
