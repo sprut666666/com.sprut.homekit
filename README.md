@@ -1,6 +1,5 @@
 # HomeKit for Homey
 
-You can use only com.sprut.homekit or com.swttt.homekit.
 Thanks for [swttt](https://github.com/swttt)(the author of [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit))
 
 
