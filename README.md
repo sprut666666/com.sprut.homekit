@@ -63,6 +63,9 @@ PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_d
 
 ### Changelog
 
+#### 1.0.2
+- Add full device info for debug 
+
 #### 1.0.1
 - Support 2 bridges for example com.swttt.homekit
 
