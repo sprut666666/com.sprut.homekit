@@ -31,7 +31,7 @@ Now supports the types:
 - Temperature sensor
 - Leak sensor
 - Smoke sensor
-- Contact sensor
+- Contact sensor (door/window sensor)
 - AirQuality sensor
 - Thermostat
 - Volume speaker
