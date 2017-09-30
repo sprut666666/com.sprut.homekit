@@ -1,5 +1,9 @@
 # HomeKit for Homey
 
+![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
+
+After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
+
 It is my [Sprut](https://github.com/sprut666666) fork to [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
 Thanks [Swttt](https://github.com/swttt) so much for the work done.
 
@@ -42,20 +46,6 @@ Now supports the types:
 - Doorbell button (as Motion sensor)
 
 + Battery service for all
-
----
-
-With this app you can pair Homey to HomeKit and control your devices using Siri.
-
-After installing the app grab your iPhone or iPad.
-Go to the Home app on your iOS devices, click the `+` and add new accessory.
-Now you should be able to scan the code below, or add it manually.
-
-![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
-
-After Homey is paired, go to settings->HomeKit. There select the devices you want to pair with HomeKit.
-
-It might take a few sec (sometimes even longer) until your device shows up in your Home app.
 
 ---
 
