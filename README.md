@@ -62,7 +62,7 @@ The first Creator [Swttt](https://github.com/swttt) PayPal: [![Donate](https://w
 ### Changelog
 
 #### 1.0.3
-- Doorbell button (as Motion sensor)
+- Add Doorbell button (as Motion sensor)
 
 #### 1.0.2
 - Add full device info for debug
