@@ -1,12 +1,14 @@
 # HomeKit for Homey
 
-It is fork to [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
-Thank [swttt](https://github.com/swttt) so much for the work done.
+It is my [Sprut](https://github.com/sprut666666) fork to [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
+Thanks [swttt](https://github.com/swttt) so much for the work done.
 
 Example of work: https://www.youtube.com/watch?v=yZWt6jDCl7E (New video from Homey the work)
 
+If you have problems update your "I" device & Apple TV. On iOS 11 everything works perfectly.
+
 Differences from HomeyKit:
-- The new logic works, you can add any device and if it supported device types they will be added to HomeKit. If the device is not supported device types will be added to the "device is not supported" - If you want I added a new device type send me "full info:" the device from the log on sprut666666@gmail.com
+- The new logic works, you can add any device and if it supported device types they will be added to HomeKit. If the device is not supported device types will be added to the device "NOT SUPPORTED" - If you want I added a new device type send me "full info:" the device from the log on sprut666666@gmail.com
 - Removing devices from the form of the plugin is correct.
 - You can remove the device directly to Homey, and everything will be deleted and HomeКit and the plugin will work correctly.
 - Global optimization work with HomeKit a lot of fixes
@@ -35,6 +37,7 @@ Now supports the types:
 - Volume speaker
 - Vacuum cleaner
 - Button (simple and Play/Pause etc)
+- Doorbell button (as Motion sensor)
 
 + Battery service for all
 
@@ -64,19 +67,18 @@ Any other feature request can be added there as well.
 
 ### Donate
 
-The first Creator [swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
+For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666)   or     Yandex: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
 
 &&&&&
 
-For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666)
-
-or
-
-Yandex: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
+The first Creator [swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
 
 ---
 
 ### Changelog
+
+#### 1.0.3
+- Doorbell button (as Motion sensor)
 
 #### 1.0.2
 - Add full device info for debug
