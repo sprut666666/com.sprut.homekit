@@ -61,6 +61,9 @@ The first Creator [Swttt](https://github.com/swttt) PayPal: [![Donate](https://w
 
 ### Changelog
 
+#### 1.0.4
+- fix Thermostat not measure_temperature
+
 #### 1.0.3
 - Add Doorbell button (as Motion sensor)
 
