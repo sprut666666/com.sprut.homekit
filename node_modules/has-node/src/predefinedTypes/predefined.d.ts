@@ -7,7 +7,6 @@ export declare function AdministratorOnlyAccess(ID: number, value: any, onWrite?
 export declare function AirParticulateDensity(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function AirParticulateSize(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function AirQuality(ID: number, value: any, onWrite?: OnWrite): Characteristic;
-export declare function AppMatchingIdentifier(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function AudioFeedback(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function BatteryLevel(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function Brightness(ID: number, value: any, onWrite?: OnWrite): Characteristic;
@@ -18,6 +17,7 @@ export declare function CarbonMonoxideDetected(ID: number, value: any, onWrite?:
 export declare function CarbonMonoxideLevel(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function CarbonMonoxidePeakLevel(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function ChargingState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
+export declare function ColorTemperature(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function ContactSensorState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function CoolingThresholdTemperature(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function CurrentAirPurifierState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
@@ -55,8 +55,8 @@ export declare function LockTargetState(ID: number, value: any, onWrite?: OnWrit
 export declare function Logs(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function Manufacturer(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function Model(ID: number, value: any, onWrite?: OnWrite): Characteristic;
-export declare function Mute(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function MotionDetected(ID: number, value: any, onWrite?: OnWrite): Characteristic;
+export declare function Mute(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function Name(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function NightVision(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function NitrogenDioxideDensity(ID: number, value: any, onWrite?: OnWrite): Characteristic;
@@ -74,7 +74,6 @@ export declare function PM10Density(ID: number, value: any, onWrite?: OnWrite): 
 export declare function PM25Density(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function PositionState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function ProgrammableSwitchEvent(ID: number, value: any, onWrite?: OnWrite): Characteristic;
-export declare function ProgrammableSwitchOutputState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function RelativeHumidityDehumidifierThreshold(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function RelativeHumidityHumidifierThreshold(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function ResetFilterIndication(ID: number, value: any, onWrite?: OnWrite): Characteristic;
@@ -84,12 +83,13 @@ export declare function Saturation(ID: number, value: any, onWrite?: OnWrite): C
 export declare function SecuritySystemAlarmType(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SecuritySystemCurrentState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SecuritySystemTargetState(ID: number, value: any, onWrite?: OnWrite): Characteristic;
-export declare function SelectedStreamConfiguration(ID: number, value: any, onWrite?: OnWrite): Characteristic;
+export declare function SelectedRTPStreamConfiguration(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SerialNumber(ID: number, value: any, onWrite?: OnWrite): Characteristic;
+export declare function ServiceLabelIndex(ID: number, value: any, onWrite?: OnWrite): Characteristic;
+export declare function ServiceLabelNamespace(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SetupEndpoints(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SlatType(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function SmokeDetected(ID: number, value: any, onWrite?: OnWrite): Characteristic;
-export declare function SoftwareRevision(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function StatusActive(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function StatusFault(ID: number, value: any, onWrite?: OnWrite): Characteristic;
 export declare function StatusJammed(ID: number, value: any, onWrite?: OnWrite): Characteristic;
@@ -124,7 +124,6 @@ export declare function AccessoryInformation(ID: number, characteristics: Charac
 export declare function AirPurifier(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function AirQualitySensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function BatteryService(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
-export declare function CameraControl(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function CameraRTPStreamManagement(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function CarbonDioxideSensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function CarbonMonoxideSensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
@@ -148,10 +147,10 @@ export declare function MotionSensor(ID: number, characteristics: Characteristic
 export declare function OccupancySensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function Outlet(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function SecuritySystem(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
+export declare function ServiceLabel(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function Slat(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function SmokeSensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function Speaker(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
-export declare function StatefulProgrammableSwitch(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function StatelessProgrammableSwitch(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function Switch(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;
 export declare function TemperatureSensor(ID: number, characteristics: Characteristic[], isHidden?: boolean, isPrimary?: boolean, linkedServices?: number[]): Service;

@@ -61,6 +61,11 @@ For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.pa
 
 ### Changelog
 
+#### 1.1.0
+- update has-node 0.2.2
+- new ColorTemperature
+- fix RGBW
+
 #### 1.0.5
 - fix bugs in Thermostat & expansion of functionality
 

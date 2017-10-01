@@ -5,7 +5,7 @@
  */
 
 import Accessory from './accessory';
-import Characteristic from './Characteristic';
+import Characteristic from './characteristic';
 
 export default class Service {
     /**

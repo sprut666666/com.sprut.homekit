@@ -98,4 +98,4 @@ for (let service of data.Services) {
     codes.push(code);
 }
 
-FS.writeFileSync('predefined.ts', codes.join("\n\n"));
+FS.writeFileSync(__dirname + '/predefined.ts', codes.join("\n\n"));
