@@ -55,11 +55,14 @@ For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.pa
 
 &&&&&
 
-The first Creator [Swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
+[Swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
 
 ---
 
 ### Changelog
+
+#### 1.0.5
+- fix bugs in Thermostat & expansion of functionality
 
 #### 1.0.4
 - fix Thermostat not measure_temperature
