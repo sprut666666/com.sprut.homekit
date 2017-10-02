@@ -133,7 +133,7 @@ export default class TCP extends EventEmitter {
                         socket.HAPEncryption.incomingFramesCounter++;
                     } else {
                         socket.emit('close');
-                        return;
+                        return; //Will break both loop and function
                     }
                 }
                 data = result;
@@ -258,28 +258,47 @@ export default class TCP extends EventEmitter {
 
         connection.on('data', (data: Buffer) => {
             debug(`Data received from HTTP.`);
-            let currentLine = '',
-                prevs = Buffer.alloc(0),
-                rests = data;
-            while (true) {
-                let {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(rests);
-                currentLine = firstLine.toString('utf8');
+            //Handle Multipart Responses
+            let {firstLine: veryFirstLine, rest} = this.readAndDeleteFirstLineOfBuffer(data);
+            if (veryFirstLine.toString().indexOf('HTTP') > -1) {
+                let socketID = '',
+                    contentLength = '0',
+                    headers = Buffer.alloc(0),
+                    rests = data;
+
                 rests = rest;
-                if (currentLine.indexOf('X-Real-Socket-ID') > -1)
-                    break;
-                else
-                    prevs = Buffer.concat([prevs, delimiter, firstLine]);
-                if (firstLine.length === 0)
-                    break;
+                headers = veryFirstLine;
+                while (true) {
+                    let {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(rests);
+                    let currentLine = firstLine.toString('utf8');
+                    rests = rest;
+                    if (currentLine.indexOf('X-Real-Socket-ID') > -1)
+                        socketID = this.readHeaderValue(currentLine);
+                    else if (currentLine.indexOf('Content-Length') > -1)
+                        contentLength = this.readHeaderValue(currentLine);
+                    headers = Buffer.concat([headers, delimiter, firstLine]);
+                    if (firstLine.length === 0)
+                        break;
+                }
+
+                connection.pendingRead = {
+                    expectedLength: parseInt(contentLength),
+                    headers: headers,
+                    socketID: socketID,
+                    body: rests
+                };
+            } else
+                connection.pendingRead.body = Buffer.concat([connection.pendingRead.body, data]);
+
+            if (connection.pendingRead.body.length >= connection.pendingRead.expectedLength) {
+                if (this.connections[connection.pendingRead.socketID])
+                    this.connections[connection.pendingRead.socketID].safeWrite(Buffer.concat([connection.pendingRead.headers, delimiter, connection.pendingRead.body]));
+
+                connection.isBusy = false;
+
+                if (this.hasExtraOpenConnection())
+                    connection.emit('close');
             }
-            let socketID = (currentLine.split(':')[1]).trim();
-            if (this.connections[socketID])
-                this.connections[socketID].safeWrite(Buffer.concat([prevs, delimiter, rests]));
-
-            connection.isBusy = false;
-
-            if (this.hasExtraOpenConnection())
-                connection.emit('close');
         });
 
         connection.safeWrite = (buffer: Buffer) => {
@@ -311,6 +330,15 @@ export default class TCP extends EventEmitter {
                 firstLine = Buffer.concat([firstLine, buffer.slice(index, index + 1)]);
         }
         return {firstLine: firstLine, rest: buffer.slice(firstLine.length + delimiter.length)};
+    }
+
+    /**
+     * @methdo Splits header value
+     * @param {string} header
+     * @returns {any}
+     */
+    private readHeaderValue(header: string): any {
+        return (header.split(':')[1]).trim();
     }
 
     /**
