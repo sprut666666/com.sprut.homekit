@@ -44,7 +44,7 @@ for (let characteristic of data.Characteristics) {
     let maxValue = characteristic.Constraints ? characteristic.Constraints.MaximumValue : undefined;
     let stepValue = characteristic.Constraints ? characteristic.Constraints.StepValue : undefined;
     let maxLength = undefined;
-    let validValues = (characteristic.Constraints && characteristic.Constraints.ValidValues) ? Object.keys(characteristic.Constraints.ValidValues).map(value => parseInt(value)) : undefined;
+    let validValues = (characteristic.Constraints && (characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits)) ? Object.keys(characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits).map(value => parseInt(value)) : undefined;
     let validRangeValues = undefined;
     let code = `export function ${getFunctionName(description)}(ID: number, value: any, onWrite?: OnWrite): Characteristic {
     let characteristic = new Characteristic(ID, '${type}', '${valueFormat}', ${isHidden}, ${hasNotifications}, ${hasValue}, ${isReadonly}, ${additionalAuthorization}, ${undefinedOrString(valueUnit)}, ${undefinedOrString(description)}, ${minValue}, ${maxValue}, ${stepValue}, ${maxLength}, ${undefinedOrArray(validValues)}, ${validRangeValues});

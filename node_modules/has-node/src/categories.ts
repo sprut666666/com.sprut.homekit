@@ -23,5 +23,9 @@ export enum categories {
     rangeExtender = 16,
     IPCamera = 17,
     videoDoorBell = 18,
-    airPurifier = 19
+    airPurifier = 19,
+    heater = 20,
+    airconditioner = 21,
+    humidifer = 22,
+    dehumidifier = 23
 };

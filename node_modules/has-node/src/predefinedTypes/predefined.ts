@@ -13,7 +13,7 @@ import Service from '../service';
 //Characteristics
 
 export function AccessoryFlags(ID: number, value: any, onWrite?: OnWrite): Characteristic {
-    let characteristic = new Characteristic(ID, '000000A6-0000-1000-8000-0026BB765291', 'uint32', false, true, true, true, false, undefined, "Accessory Flags", undefined, undefined, undefined, undefined, undefined, undefined);
+    let characteristic = new Characteristic(ID, '000000A6-0000-1000-8000-0026BB765291', 'uint32', false, true, true, true, false, undefined, "Accessory Flags", undefined, undefined, undefined, undefined, [0], undefined);
     if (value != null && value != undefined)
         characteristic.setValue(value);
     if (onWrite)

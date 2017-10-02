@@ -61,6 +61,9 @@ For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.pa
 
 ### Changelog
 
+#### 1.1.2
+- update has-node 0.2.3
+
 #### 1.1.1
 - fix WindowCovering
 

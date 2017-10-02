@@ -82,7 +82,11 @@ HAS.catogories = {
    rangeExtender: 16,
    IPCamera: 17,
    videoDoorBell: 18,
-   airPurifier: 19
+   airPurifier: 19,
+   heater: 20,
+   airconditioner: 21,
+   humidifer: 22,
+   dehumidifier: 23
 };
 ```
 
@@ -156,8 +160,6 @@ Properties:
 
 * `server.onIdentify`: ((value: any, callback: (status: HAS.statusCodes) => void) => void) This function will be used to identify the server.
 
-_There are also other methods and properties on this class, Check the source._
-
 **Characteristic**
 
 ```js
@@ -206,8 +208,6 @@ Properties:
 
 * `characteristic.onWrite`: ((value: any, callback: (status: HAS.statusCodes) => void, authData?: Buffer) => void) Set this function to handle value write requests.
 
-_There are also other methods and properties on this class, Check the source._
-
 **Service**
 
 ```js
@@ -233,8 +233,6 @@ Methods:
 
 * `service.addCharacteristics(...characteristics)` Adds a group of characteristics to this service.
 
-_There are also other methods and properties on this class, Check the source._
-
 **Accessory**
 
 ```js
@@ -252,8 +250,6 @@ Methods:
 * `accessory.addServices(...services)` Adds a group of services to this accessory.
 
 **_Each accessory needs to have an information service with serviceID = 1._**
-
-_There are also other methods and properties on this class, Check the source._
 
 **Predefined**
 
