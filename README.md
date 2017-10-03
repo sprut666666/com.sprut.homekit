@@ -3,25 +3,13 @@
 ![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
 
 After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
-
-It is my [Sprut](https://github.com/sprut666666) fork to [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
-Thanks [Swttt](https://github.com/swttt) so much for the work done.
-
 Example of work: https://www.youtube.com/watch?v=yZWt6jDCl7E (New video from Homey the work)
 
 If you have problems update your "I" device & Apple TV. On iOS 11 everything works perfectly. If you don't see for example the "SPEAKER" look here https://itunes.apple.com/us/app/elgato-eve/id917695792?mt=8
 
 If the problem remained fully describe the situation. If you found any bugs, any other feature you can create an issue on [com.sprut.homekit](https://github.com/sprut666666/com.sprut.homekit)
 
-Differences from HomeyKit:
-- The new logic works, you can add any device and if it supported device types they will be added to HomeKit. If the device is not supported device types will be added to the device "NOT SUPPORTED" - If you want I added a new device type send me "full info:" the device from the log on sprut666666@gmail.com
-- Removing devices from the form of the plugin is correct.
-- You can remove the device directly to Homey, and everything will be deleted and HomeКit and the plugin will work correctly.
-- Global optimization work with HomeKit a lot of fixes
-- Improved stability fixed all possible crashes (For example, the application was not working and you removed the device)
-- Check the availability of the devices
-- Many other small additions and fixes
-- Added many new types of devices and fixed old.
+You can add any device and if it supported device types they will be added to HomeKit. If the device is not supported device types will be added to the device "NOT SUPPORTED" - If you want I added a new device type send me "full info:" the device from the log on sprut666666@gmail.com
 
 Now supports the types:
 - Light (On-off, dim, Temperature control, RGB)
@@ -50,12 +38,27 @@ Now supports the types:
 ---
 
 ### Donate
+Many thanks to the developer who wrote the library [has-node](https://github.com/abedinpour/HAS) Without which the application cannot run ;)
+Many thanks [abedinpour](https://github.com/abedinpour) so much for the work done.
 
-For me [Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666) or Yandex: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
+The basis of this application is taken to the operating time [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
+Many thanks [Swttt](https://github.com/swttt) so much for the work done.
+
+And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app development =)
+
+
+If you like the app, you can thank the authors:
+
+
+[Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666) or Yandex: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
 
 &&&&&
 
 [Swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
+
+&&&&&
+
+[abedinpour](https://github.com/abedinpour) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://www.paypal.me/HamyarP)
 
 ---
 
