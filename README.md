@@ -41,7 +41,7 @@ Now supports the types:
 Many thanks to the developer who wrote the library [has-node](https://github.com/abedinpour/HAS) Without which the application cannot run ;)
 Many thanks [abedinpour](https://github.com/abedinpour) so much for the work done.
 
-The basis of this application is taken to the operating time [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
+The basis of this application is taken to [com.swttt.homekit](https://github.com/swttt/com.swttt.homekit)
 Many thanks [Swttt](https://github.com/swttt) so much for the work done.
 
 And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app development =)
