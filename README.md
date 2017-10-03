@@ -64,6 +64,9 @@ If you like the app, you can thank the authors:
 
 ### Changelog
 
+#### 1.1.4
+- Small fixes
+
 #### 1.1.3
 - Critical bugfix when adding many devices
 
