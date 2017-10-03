@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Bas Jansen",
+  "author": "Bas Jansen & Sprut",
   "license": "ISC",
   "dependencies": {
-    "has-node": "github:abedinpour/HAS"
+    "has-node": "github:abedinpour/HAS with ^0.2.4"
   }
 }
