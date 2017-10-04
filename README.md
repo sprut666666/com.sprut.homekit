@@ -64,6 +64,10 @@ If you like the app, you can thank the authors:
 
 ### Changelog
 
+#### 1.1.5
+- Verification of successful installation of the new parameters in Homey
+- Fix for MiLight
+
 #### 1.1.4
 - Small fixes
 

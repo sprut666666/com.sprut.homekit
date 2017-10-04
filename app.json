@@ -17,7 +17,7 @@
     "nl": ["homekit", "siri", "iOS"]
   },
   "category": "appliances",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Sprut",
@@ -39,6 +39,25 @@
 			}
 		]
 	},
+  "contributing": {
+        "donate": {
+            "paypal":
+            {
+                "email": "sprut.1@icloud.com",
+                "currency": "EUR"
+            },
+            "paypal":
+            {
+                "email": "b@sjansen.email",
+                "currency": "EUR"
+            },
+            "paypal":
+            {
+                "email": "abedinpourmh@gmail.com",
+                "currency": "EUR"
+            }
+        }
+    },
   "images": {
     "large": "./assets/images/large.png",
     "small": "./assets/images/small.png"
