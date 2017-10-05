@@ -64,6 +64,9 @@ If you like the app, you can thank the authors:
 
 ### Changelog
 
+#### 1.1.7
+- If wakeup interval > 15 seconds - no online state
+
 #### 1.1.6
 - Extended support for status updates of devices
 
