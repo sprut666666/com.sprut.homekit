@@ -6,6 +6,10 @@
 I don't agree with the rules of publishing applications, I want to choose to whom to donate money.
 Now Homey is trying to impose rules file. And forbid you to help to whom you want .
 
+Donations: https://developer.athom.com/docs/apps
+- Donate buttons are only allowed as a field in the Manifest.
+- Donate buttons are not allowed when an app is based on a fork.
+
 The more popularity with Homey - the more chaos ;)
 
 Look at the AppStore and Google Play, you can't wage war with a hundred apps that can play streaming videos just one chooses for himself the right.
@@ -65,6 +69,9 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 ---
 
 ### Changelog
+
+#### 1.1.8
+- Fix info & README
 
 #### 1.1.7
 - If wakeup interval > 15 seconds - no online state
