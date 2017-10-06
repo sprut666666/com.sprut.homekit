@@ -1,5 +1,21 @@
 # HomeKit for Homey
 
+---
+
+### Main
+I don't agree with the rules of publishing applications, I want to choose to whom to donate money.
+Now Homey is trying to impose rules file. And forbid you to help to whom you want .
+
+The more popularity with Homey - the more chaos ;)
+
+Look at the AppStore and Google Play, you can't wage war with a hundred apps that can play streaming videos just one chooses for himself the right.
+
+I defend the position for the future. My proposal was to make the following rules: if you post a fork or an analogue of the main application - you must provide a link to the main application, if you want to insert the donation be sure to specify the main author. I think this is true, then you decide to pay or not and how many stars to put....
+
+If you agree with me write to the creators of Homey support@athom.com
+
+---
+
 ![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
 
 After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
@@ -37,7 +53,7 @@ Now supports the types:
 
 ---
 
-### Donate
+### About
 Many thanks to the developer who wrote the library [has-node](https://github.com/abedinpour/HAS) Without which the application cannot run ;)
 Many thanks [abedinpour](https://github.com/abedinpour) so much for the work done.
 
@@ -45,20 +61,6 @@ The basis of this application is taken development [com.swttt.homekit](https://g
 Many thanks [Swttt](https://github.com/swttt) so much for the work done.
 
 And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app development =)
-
-
-If you like the app, you can thank the authors:
-
-
-[Sprut](https://github.com/sprut666666) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/sprut666666) or Yandex: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://money.yandex.ru/to/410014789265242)
-
-&&&&&
-
-[Swttt](https://github.com/swttt) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://paypal.me/BasJansen)
-
-&&&&&
-
-[abedinpour](https://github.com/abedinpour) PayPal: [![Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png)](https://www.paypal.me/HamyarP)
 
 ---
 
