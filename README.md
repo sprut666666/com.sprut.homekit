@@ -1,25 +1,5 @@
 # HomeKit for Homey
 
----
-
-### Main
-I don't agree with the rules of publishing applications, I want to choose to whom to donate money.
-Now Homey is trying to impose rules file. And forbid you to help to whom you want .
-
-Donations: https://developer.athom.com/docs/apps
-- Donate buttons are only allowed as a field in the Manifest.
-- Donate buttons are not allowed when an app is based on a fork.
-
-The more popularity with Homey - the more chaos ;)
-
-Look at the AppStore and Google Play, you can't wage war with a hundred apps that can play streaming videos just one chooses for himself the right.
-
-I defend the position for the future. My proposal was to make the following rules: if you post a fork or an analogue of the main application - you must provide a link to the main application, if you want to insert the donation be sure to specify the main author. I think this is true, then you decide to pay or not and how many stars to put....
-
-If you agree with me write to the creators of Homey support@athom.com
-
----
-
 ![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
 
 After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
@@ -69,6 +49,9 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 ---
 
 ### Changelog
+
+#### 1.1.9
+- Fix README
 
 #### 1.1.8
 - Fix info & README
