@@ -1,11 +1,16 @@
 {
-
   "tabs": {
     "devices": "Apparaten",
+    "presence": "Aanwezigheid",
     "log": "Log"
   },
   "device": {
     "add": "Toevoegen",
     "delete": "Verwijderen"
+  },
+  "user": {
+    "description" : "Je kunt de aanwezigheid van gebruikers volgen.",
+    "track": "Volg",
+    "untrack": "Ontvolg"
   }
 }

@@ -43,10 +43,16 @@ class HomekitApp extends Homey.App
     }
     return this.api;
   }
+
   async getDevices() {
     const api = await this.getApi();
     allDevices = await api.devices.getDevices();
     return allDevices;
+  }
+
+  async getUsers() {
+    const api = await this.getApi();
+    return api.users.getUsers();
   }
 
   getLog() {
@@ -58,13 +64,24 @@ class HomekitApp extends Homey.App
   {
     // Get the homey object
     const api = await this.getApi();
+
     // Get system info
     const systeminfo = await api.system.getInfo();
+
     // Subscribe to realtime events and set all devices global
     await api.devices.subscribe();
     allDevices = await api.devices.getDevices();
 
     server = await Homekit.configServer(systeminfo);
+
+    // Subscribe to presence events
+    await api.presence.subscribe();
+    this.occupancyManager = new Homekit.OccupancyManager(server, api);
+    let trackedUsers      = await Homey.ManagerSettings.get('trackedUsers') || [];
+    for (let user of trackedUsers) {
+      this.occupancyManager.trackUser(user);
+    }
+    api.presence.on('presence', state => this.occupancyManager.updateState(state));
 
     // Loop all devices
     allPairedDevices = await Homey.ManagerSettings.get('pairedDevices') || [];
@@ -153,7 +170,6 @@ class HomekitApp extends Homey.App
       }
 
     });
-
   }
 
   async onInit()
@@ -191,6 +207,16 @@ class HomekitApp extends Homey.App
     server.removeAccessory(server.config.getHASID(device.id));
 
     console.log(device.name + ' is removed!', 'success');
+  }
+
+  async trackUser(user) {
+    console.log('Trying to track user', user.name);
+    this.occupancyManager && this.occupancyManager.trackUser(user);
+  }
+
+  async unTrackUser(user) {
+    console.log('Trying to untrack user', user.name);
+    this.occupancyManager && this.occupancyManager.unTrackUser(user);
   }
 
 }

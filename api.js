@@ -47,5 +47,36 @@ module.exports = [
         });
 
     }
-  }
+  },
+  {
+    method: 'GET',
+    path: '/users',
+    fn: function(args, callback) {
+      Homey.app .getUsers()
+                .then(res => callback(null, res))
+                .catch(callback);
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/users',
+    fn: function(args, callback) {
+      let user = args.body;
+      console.log('API call received, trying to track ' + user.name, 'info');
+      Homey.app .trackUser(user)
+                .then(res => callback(null, true))
+                .catch(callback);
+    }
+  },
+  {
+    method: 'DELETE',
+    path: '/users',
+    fn: function(args, callback) {
+      let user = args.body;
+      console.log('API call received, trying to untrack ' + user.name, 'info');
+      Homey.app .unTrackUser(user)
+                .then(res => callback(null, true))
+                .catch(callback);
+    }
+  },
 ]
