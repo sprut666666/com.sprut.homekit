@@ -16,11 +16,15 @@
           <li v-bind:class="isActive('devices')">
             <a @click="setPage('devices')" data-i18n="tabs.devices">Devices</a>
           </li>
+          <li v-bind:class="isActive('presence')">
+            <a @click="setPage('presence')" data-i18n="tabs.presence">Presence</a>
+          </li>
           <li v-bind:class="isActive('log')">
             <a @click="setPage('log')" data-i18n="tabs.log">Log</a>
           </li>
         </ul>
       </div>
+
       <!-- DEVICES PAGE -->
       <div class="columns is-multiline" v-if="currentPage == 'devices'">
         <input v-model="search" class="input" style="margin-left:10px;margin-right:10px;" type="text" placeholder="Filter...">
@@ -37,6 +41,22 @@
         </div>
       </div>
 
+      <!-- PRESENCE PAGE -->
+      <div class="columns is-multiline" v-if="currentPage == 'presence'">
+        <div class="column is-3" v-for="user in users">
+          <div class="box">
+            <center>
+              <img :src="user.avatar" style="height:40px;width:auto;border-radius:20px"/><br/>
+              <b>{{ user.name }}</b><br/>
+              <small>{{ user.role }} | {{ user.email }}</small><br/>
+              <a v-if="!isTracked(user)" @click="trackUser(user)" class="button is-success is-outlined " style="margin:5px;" data-i18n="user.track">Track</a>
+              <a v-if=" isTracked(user)" @click="unTrackUser(user)" class="button is-outlined is-danger" style="margin:5px;" data-i18n="user.untrack">Untrack</a>
+            </center>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG PAGE -->
       <div class="columns is-multiline" style="margin-left:8px;margin-right:2px;" v-if="currentPage == 'log'">
         <div class="column is-12 box">
           <table class="table is-striped">
@@ -64,8 +84,10 @@
         el: '#app',
         data: {
           devices: {},
-          search: '',
           devicesPaired: [],
+          users: [],
+          usersTracked: [],
+          search: '',
           currentPage: 'devices',
           log: []
         },
@@ -78,6 +100,14 @@
                 return result[key];
               });
               this.devices = array;
+            });
+          },
+          getUsers() {
+            Homey.api('GET', '/users', null, (err, result) => {
+              if (err) {
+                return Homey.alert(err);
+              }
+              this.users = result || [];
             });
           },
           getLog() {
@@ -93,7 +123,13 @@
               if (result) {
                 this.devicesPaired = result;
               }
-
+            });
+          },
+          getTrackedUsers() {
+            Homey.get('trackedUsers', (err, result) => {
+              if (result) {
+                this.usersTracked = result;
+              }
             });
           },
           setPage(page) {
@@ -141,6 +177,29 @@
               }
             );
           },
+          trackUser(user) {
+            Homey.api('PUT', '/users', user, (err, result) => {
+              if (err) {
+                return Homey.alert(err);
+              }
+              console.log('Tracking', user.name);
+              this.usersTracked.push(user);
+              Homey.set('trackedUsers', this.usersTracked);
+            });
+          },
+          unTrackUser(user) {
+            Homey.api('DELETE', '/users', user, (err, result) => {
+              if (err) {
+                return Homey.alert(err);
+              }
+              console.log('Untracking', user.name);
+              let idx = this.usersTracked.findIndex(u => u.id === user.id);
+              if (idx !== -1) {
+                this.usersTracked.splice(idx, 1);
+                Homey.set('trackedUsers', this.usersTracked);
+              }
+            });
+          },
           isAdded(obj) {
             var i;
             for (i = 0; i < this.devicesPaired.length; i++) {
@@ -148,8 +207,10 @@
                 return true;
               }
             }
-
             return false;
+          },
+          isTracked(obj) {
+            return this.usersTracked.find(user => user.id === obj.id) ? true : false;
           },
           filterArray(device) {
             if (device.class == "light" || device.class == "socket" || device.class == "sensor" || device.class == "lock")
@@ -159,6 +220,9 @@
         mounted() {
           this.getPairedDevices();
           this.getDevices();
+          this.getTrackedUsers();
+          this.getDevices();
+          this.getUsers();
           this.getLog();
           Homey.on('log.new', (res)=>{
             this.log = res;

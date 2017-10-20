@@ -1,11 +1,15 @@
 {
-
   "tabs": {
     "devices": "Devices",
+    "presence": "Presence",
     "log": "Log"
   },
   "device": {
     "add": "Add",
     "delete": "Delete"
+  },
+  "user": {
+    "track": "Track",
+    "untrack": "Untrack"
   }
 }
