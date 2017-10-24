@@ -126,6 +126,7 @@
             for (i = 0; i < this.devicesPaired.length; i++) {
               if (this.devicesPaired[i] && this.devicesPaired[i].id == device.id) {
                 this.devicesPaired.splice(i, 1);
+                break;
               }
             }
             await Homey.set('pairedDevices', this.devicesPaired, (err, result) => {

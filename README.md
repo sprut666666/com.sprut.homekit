@@ -5,6 +5,10 @@
 After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
 Example of work: https://www.youtube.com/watch?v=yZWt6jDCl7E (New video from Homey the work)
 
+Forum => https://forum.athom.com/discussion/3958/app-homekit-app-sprut
+
+Remote access in HomeKit: https://support.apple.com/en-us/HT207057
+
 If you have problems update your "I" device & Apple TV. On iOS 11 everything works perfectly. If you don't see for example the "SPEAKER" look here https://itunes.apple.com/us/app/elgato-eve/id917695792?mt=8
 
 If the problem remained fully describe the situation. If you found any bugs, any other feature you can create an issue on [com.sprut.homekit](https://github.com/sprut666666/com.sprut.homekit)
@@ -32,6 +36,7 @@ Now supports the types:
 - Vacuum cleaner
 - Button (simple and Play/Pause etc)
 - Doorbell button (as Motion sensor)
+- Occupancy sensor
 
 + Battery service for all
 
@@ -49,6 +54,11 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 ---
 
 ### Changelog
+
+#### 1.2.0
+- Fix & add OccupancySensor
+- update has-node@0.2.5
+- update athom-api@2.0.37
 
 #### 1.1.9
 - Fix README

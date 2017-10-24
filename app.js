@@ -6,7 +6,7 @@ const debug = true;
 // process.env.DEBUG = 'TCP';
 
 const Homey = require('homey')
-const { HomeyAPI } = require('./lib/athom-api.js')
+const { HomeyAPI } = require('athom-api')
 const Homekit = require('./lib/homekit.js')
 
 
@@ -18,8 +18,8 @@ let allDevices = {},
 
 if (debug) {
   console.log = function(string, type) {
-    const d = new Date();
-    const n = d.toLocaleTimeString();
+    let d = new Date();
+    let n = d.toLocaleTimeString();
     let item = {};
     item.time = n;
     item.string = string;
@@ -44,7 +44,7 @@ class HomekitApp extends Homey.App
     return this.api;
   }
   async getDevices() {
-    const api = await this.getApi();
+    let api = await this.getApi();
     allDevices = await api.devices.getDevices();
     return allDevices;
   }
@@ -57,9 +57,9 @@ class HomekitApp extends Homey.App
   async startingServer()
   {
     // Get the homey object
-    const api = await this.getApi();
+    let api = await this.getApi();
     // Get system info
-    const systeminfo = await api.system.getInfo();
+    let systeminfo = await api.system.getInfo();
     // Subscribe to realtime events and set all devices global
     await api.devices.subscribe();
     allDevices = await api.devices.getDevices();
@@ -98,6 +98,7 @@ class HomekitApp extends Homey.App
           if (allPairedDevices[i] && allPairedDevices[i].id == device.id)
           {
             allPairedDevices.splice(i, 1);
+            break;
           }
         }
       }
@@ -135,6 +136,7 @@ class HomekitApp extends Homey.App
         {
           allPairedDevices.splice(i, 1);
           deletePairedDevices = true;
+          break;
         }
       }
 

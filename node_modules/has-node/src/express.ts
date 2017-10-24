@@ -14,6 +14,7 @@ import {encodeTLV, encodeTLVError, TLVITem} from './TLV/encode';
 import SRP from './encryption/SRP';
 import HKDF from './encryption/HKDF';
 import * as ChaCha from './encryption/ChaCha20Poly1305AEAD';
+
 const Ed25519 = require('ed25519');
 const Curve25519 = require('curve25519-n2');
 import Characteristic from './characteristic';
@@ -127,6 +128,7 @@ export default function (server: HAS): express.Express {
                         }]));
                     return;
                 } else {
+                    server.config.failedAuthCounter++;
                     server.config.lastPairStepTime = undefined;
                     res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
                 }
@@ -150,9 +152,12 @@ export default function (server: HAS): express.Express {
 
                     if (Ed25519.Verify(iOSDeviceInfo, info[TLVEnums.TLVValues.signature], info[TLVEnums.TLVValues.publicKey])) {
                         server.config.addPairing(info[TLVEnums.TLVValues.identifier], info[TLVEnums.TLVValues.publicKey], true);
+                        server.config.failedAuthCounter = 0;
 
                         let accessoryInfo = Buffer.concat([HKDF(server.config.SRP.getSessionKey(), 'Pair-Setup-Accessory-Sign-Salt', 'Pair-Setup-Accessory-Sign-Info'), Buffer.from(server.config.deviceID), server.config.publicKey]);
                         let accessorySignature = Ed25519.Sign(accessoryInfo, server.config.privateKey);
+
+                        server.config.SRP = undefined;
 
                         let plainTLV = encodeTLV([
                             {
