@@ -83,7 +83,7 @@ export default function (server: HAS): express.Express {
 
             //M1 <iOS> -> M2 <Server>
             if (currentState === 0x01) {
-                //Another pairing is already in process
+                //Another pairing is already in progress
                 if (server.config.lastPairStepTime && new Date().getTime() - server.config.lastPairStepTime.getTime() < 30000 && server.config.SRP && server.config.SRP.socketID !== req.realSocket.ID) {
                     res.end(encodeTLVError(TLVEnums.TLVErrors.busy, currentState));
                     return;

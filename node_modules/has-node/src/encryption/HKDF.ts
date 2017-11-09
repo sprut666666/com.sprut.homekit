@@ -1,5 +1,5 @@
 /**
- * @file HMAC implementation for HAP / Based on: https://github.com/benadida/node-hkdf/blob/master/lib/hkdf.js
+ * @file HKDF implementation for HAP / Based on: https://github.com/benadida/node-hkdf/blob/master/lib/hkdf.js
  * @author MohammadHossein Abedinpour <abedinpourmh@gmail.com>
  * @licence Apache2
  */

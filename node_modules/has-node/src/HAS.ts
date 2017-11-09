@@ -194,6 +194,9 @@ export default class HAS {
             this.bonjourService.on('up', () => {
                 console.log('Bonjour is up');
             });
+            this.bonjourService.on('error', (error: any) => {
+                console.error(error);
+            });
         } else {
             //Update existing server TXT records
             this.bonjourService.txt = this.config.getTXTRecords();
