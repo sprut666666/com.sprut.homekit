@@ -123,6 +123,7 @@ export default class HAS {
         this.updateBonjour();
 
         this.HTTPServer.timeout = 0; //TCP connection should stay open as lang as it wants to
+        this.HTTPServer.keepAliveTimeout = 0;
         this.HTTPServer.listen(0);
 
 

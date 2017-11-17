@@ -135,6 +135,8 @@ Methods:
 
 * `config.getHASID(UUID): number`: Maps UUID to persistent unique integer.
 
+* `config.resetHASID(UUID)`: Resets mapped integer for an UUID.
+
 **Server**
 
 ```js

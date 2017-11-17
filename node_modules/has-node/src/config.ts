@@ -361,6 +361,22 @@ export default class Config {
     }
 
     /**
+     * @method Set last assigned HAS ID if required
+     */
+    private setLastAssignedHASIDIfNeeded() {
+        if (!this.UUIDMap['lastAssignedID']) {
+            let values = [0];
+
+            for (let UUID in this.UUIDMap)
+                values.push(this.UUIDMap[UUID]);
+
+            let lastID = Math.max(...values);
+
+            this.UUIDMap['lastAssignedID'] = lastID;
+        }
+    }
+
+    /**
      * @method Maps UUID to HAS ID
      * @param {string} UUID
      * @returns {number}
@@ -371,17 +387,26 @@ export default class Config {
         if (this.UUIDMap[UUID])
             return this.UUIDMap[UUID];
 
-        let values = [0];
+        this.setLastAssignedHASIDIfNeeded();
 
-        for (let UUID in this.UUIDMap)
-            values.push(this.UUIDMap[UUID]);
+        const ID = ++this.UUIDMap['lastAssignedID'];
 
-        let lastID = Math.max(...values);
-        lastID++;
-
-        this.UUIDMap[UUID] = lastID;
+        this.UUIDMap[UUID] = ID;
         this.writeConfig();
 
-        return lastID;
+        return ID;
+    }
+
+    /**
+     * @method Resets HAS ID of an UUID
+     * @param {string} UUID
+     */
+    public resetHASID(UUID: string) {
+        UUID = UUID.toString().toUpperCase();
+
+        this.setLastAssignedHASIDIfNeeded();
+
+        this.UUIDMap[UUID] = 0;
+        this.writeConfig();
     }
 }

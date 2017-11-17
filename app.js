@@ -191,6 +191,7 @@ class HomekitApp extends Homey.App
 
     allDevices[device.id].removeAllListeners('$state');
     server.removeAccessory(server.config.getHASID(device.id));
+    server.config.resetHASID(device.id);
 
     console.log(device.name + ' is removed!', 'success');
   }
