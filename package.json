@@ -9,7 +9,7 @@
   "author": "Bas Jansen & Sprut",
   "license": "ISC",
   "dependencies": {
-    "athom-api": "^2.0.71",
-    "has-node": "^0.3.1"
+    "athom-api": "^2.0.72",
+    "has-node": "^0.3.3"
   }
 }

@@ -84,7 +84,7 @@ Server.prototype._respondToQuery = function (query) {
     }
 
     self.mdns.respond({ answers: answers, additionals: additionals }, function (err) {
-      if (err) throw err // TODO: Handle this (if no callback is given, the error will be ignored)
+      //if (err) throw err // TODO: Handle this (if no callback is given, the error will be ignored)
     })
   })
 }

@@ -190,7 +190,7 @@ export default class HAS {
                 type: 'hap',
                 port: this.config.TCPPort,
                 txt: this.config.getTXTRecords(),
-                host: OS.hostname().indexOf('.local') > -1 ? OS.hostname() : OS.hostname() + '.local' //Dirty fix for Bonjour module's bug on some devices
+                host: this.config.deviceName.replace(/ /g, '') + '.local'
             });
             this.bonjourService.on('up', () => {
                 console.log('Bonjour is up');
