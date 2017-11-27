@@ -9,7 +9,14 @@ import {statusCodes} from './TLV/values';
 
 export type ValueFormat = 'bool' | 'uint8' | 'uint16' | 'uint32' | 'int' | 'float' | 'string' | 'tlv8' | 'data';
 export type ValueUnit = 'celsius' | 'percentage' | 'arcdegrees' | 'lux' | 'seconds';
-export type OnWrite = (value: any, callback: (status: statusCodes) => void, authData?: Buffer) => void
+export type OnWrite = (value: any, callback: (status: statusCodes) => void, authData?: Buffer) => void;
+
+const defaultRanges: {[index: string]: number[]} = {
+    int: [-2147483648, 2147483647],
+    uint8: [0, 255],
+    uint32: [0, 4294967295],
+    uint64: [0, 18446744073709551615]
+};
 
 export default class Characteristic {
     /**
@@ -327,6 +334,9 @@ export default class Characteristic {
             return false;
 
         if (this.isNumeric()) {
+            if (isNaN(value))
+                return false;
+
             if (this.minValue && value < this.minValue)
                 return false;
 
@@ -336,7 +346,9 @@ export default class Characteristic {
             if (this.validValues && this.validValues.indexOf(value) <= -1)
                 return false;
 
-            if (this.validRangeValues && (this.value < this.validRangeValues[0] || this.value > this.validRangeValues[1]))
+            const range = this.validRangeValues || defaultRanges[this.valueFormat];
+
+            if (range && (this.value < range[0] || this.value > range[1]))
                 return false;
         } else {
 
@@ -466,15 +478,15 @@ export default class Characteristic {
      */
     public toJSON(): {} {
         let value;
-        if (this.hasValue && this.value != undefined) {
+        if (this.hasValue) {
             if (this.isNumeric())
-                value = parseFloat(this.value);
+                value = this.valueFormat == 'float' ? parseFloat(this.value || 0) : parseInt(this.value || 0);
             else if (this.valueFormat == 'bool')
                 value = this.value == 1;
             else if (this.isBuffer())
-                value = this.value.toString('base64');
+                value = this.value ? this.value.toString('base64') : '';
             else
-                value = this.value.toString();
+                value = (this.value || '').toString();
         } else
             value = null;
 

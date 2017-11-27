@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "athom-api": "^2.0.72",
-    "has-node": "^0.3.3"
+    "has-node": "^0.3.4"
   }
 }
