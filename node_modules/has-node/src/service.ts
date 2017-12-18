@@ -118,7 +118,7 @@ export default class Service {
      * @param service
      */
     public addCharacteristic(characteristic: Characteristic) {
-        let characteristicID = characteristic.getID();
+        const characteristicID = characteristic.getID();
 
         if (this.accessory)
             throw new Error('Accessory is already set: ' + characteristicID);
@@ -129,7 +129,7 @@ export default class Service {
         if (characteristicID < 1 || characteristicID > 999)
             throw new Error('Characteristic ID can not be less than 1 or more than 999: ' + characteristicID);
 
-        for (let index in this.characteristics) {
+        for (const index in this.characteristics) {
             if (this.characteristics[index].getType() == characteristic.getType())
                 throw new Error('Characteristic type already exists: ' + characteristicID + ' ' + characteristic.getType());
         }
@@ -146,7 +146,7 @@ export default class Service {
      * @param characteristics
      */
     public addCharacteristics(...characteristics: Characteristic[]) {
-        for (let characteristic of characteristics)
+        for (const characteristic of characteristics)
             this.addCharacteristic(characteristic);
     }
 
@@ -155,11 +155,11 @@ export default class Service {
      * @returns {{[p: string]: any}}
      */
     public toJSON(): { [index: string]: any } {
-        let characteristics: {}[] = [];
-        for (let index in this.characteristics)
+        const characteristics: {}[] = [];
+        for (const index in this.characteristics)
             characteristics.push(this.characteristics[index].toJSON());
 
-        let object: { [index: string]: any } = {
+        const object: { [index: string]: any } = {
             type: this.type,
             iid: this.ID,
             characteristics: characteristics

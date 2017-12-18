@@ -105,7 +105,7 @@ export default class TCP extends EventEmitter {
             debug(`${socket.ID} disconnected`);
             delete this.connections[socket.ID];
 
-            //Make pairing available again if necessary
+            // Make pairing available again if necessary
             if (this.server.config.SRP && this.server.config.SRP.socketID === socket.ID) {
                 this.server.config.SRP = undefined;
                 this.server.config.lastPairStepTime = undefined;
@@ -122,7 +122,7 @@ export default class TCP extends EventEmitter {
 
                 let result = Buffer.alloc(0);
                 for (let index = 0; index < data.length;) {
-                    let AAD = data.slice(index, index + 2),
+                    const AAD = data.slice(index, index + 2),
                         length = AAD.readUInt16LE(0),
                         encryptedData = data.slice(index + 2, index + 2 + length),
                         tag = data.slice(index + 2 + length, index + 2 + length + 16),
@@ -133,17 +133,17 @@ export default class TCP extends EventEmitter {
                         socket.HAPEncryption.incomingFramesCounter++;
                     } else {
                         socket.emit('close');
-                        return; //Will break both loop and function
+                        return; // Will break both loop and function
                     }
                 }
                 data = result;
             }
-            let {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(data);
-            //console.log(data.toString('ascii'));
+            const {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(data);
+            // console.log(data.toString('ascii'));
             this.write(Buffer.concat([firstLine, delimiter, Buffer.from(`X-Real-Socket-ID: ${socket.ID}`, 'ascii'), delimiter, rest]));
         });
 
-        socket.setTimeout(3600000); //1Hour
+        socket.setTimeout(3600000); // 1Hour
         socket.on('timeout', () => {
             debug(`${socket.ID} timedout`);
             socket.emit('close');
@@ -152,18 +152,18 @@ export default class TCP extends EventEmitter {
         socket.keepAliveForEver = () => {
             socket.setTimeout(0);
 
-            socket.setKeepAlive(true, 1800000); //30Minutes
+            socket.setKeepAlive(true, 1800000); // 30Minutes
         };
 
         socket.safeWrite = (buffer: Buffer) => {
-            if (socket.hasReceivedEncryptedData) { //Since we are dealing with async code, isEncrypted is set first but our last write in M6 will happen after that and we should not encrypt M6, So we will start encryption after we have received encrypted data from client
-                //console.log(buffer.toString('ascii'));
+            if (socket.hasReceivedEncryptedData) { // Since we are dealing with async code, isEncrypted is set first but our last write in M6 will happen after that and we should not encrypt M6, So we will start encryption after we have received encrypted data from client
+                // console.log(buffer.toString('ascii'));
                 let result = Buffer.alloc(0);
                 for (let index = 0; index < buffer.length;) {
-                    let length = Math.min(buffer.length - index, 1024),
+                    const length = Math.min(buffer.length - index, 1024),
                         lengthBuffer = Buffer.alloc(2);
                     lengthBuffer.writeUInt16LE(length, 0);
-                    let enceypted = ChaCha.expertEncrypt(socket.HAPEncryption.accessoryToControllerKey, this.createNonce(socket.HAPEncryption.outgoingFramesCounter), buffer.slice(index, index + length), lengthBuffer);
+                    const enceypted = ChaCha.expertEncrypt(socket.HAPEncryption.accessoryToControllerKey, this.createNonce(socket.HAPEncryption.outgoingFramesCounter), buffer.slice(index, index + length), lengthBuffer);
                     result = Buffer.concat([result, lengthBuffer, enceypted]);
                     index += length;
                     socket.HAPEncryption.outgoingFramesCounter++;
@@ -175,7 +175,7 @@ export default class TCP extends EventEmitter {
         };
 
         socket.sendNotification = (notification: string) => {
-            let body = `EVENT/1.0 200 OK${delimiter}Content-Type: application/hap+json${delimiter}Content-Length: ${notification.length}${delimiter}${delimiter}${notification}`;
+            const body = `EVENT/1.0 200 OK${delimiter}Content-Type: application/hap+json${delimiter}Content-Length: ${notification.length}${delimiter}${delimiter}${notification}`;
             socket.safeWrite(Buffer.from(body));
         };
 
@@ -199,7 +199,7 @@ export default class TCP extends EventEmitter {
      */
     private write(buffer: Buffer) {
         let wrote = false;
-        for (let connection of this.TCPConnectionPool) {
+        for (const connection of this.TCPConnectionPool) {
             if (!connection.isBusy) {
                 connection.safeWrite(buffer);
                 wrote = true;
@@ -224,7 +224,7 @@ export default class TCP extends EventEmitter {
      * @method Creates TCP socket to HTTP server
      */
     private createNewConnection(): any {
-        let connection = NET.createConnection(this.HTTPPort) as any;
+        const connection = NET.createConnection(this.HTTPPort) as any;
 
         connection.on('connect', () => {
             debug('New socked connected.');
@@ -250,16 +250,16 @@ export default class TCP extends EventEmitter {
             connection.destroy();
         });
 
-        //TCP connection should stay open as lang as it wants to
+        // TCP connection should stay open as lang as it wants to
         connection.setTimeout(0);
-        connection.setKeepAlive(true, 1800000); //30 Minutes
+        connection.setKeepAlive(true, 1800000); // 30 Minutes
 
         connection.setNoDelay(0);
 
         connection.on('data', (data: Buffer) => {
             debug(`Data received from HTTP.`);
-            //Handle Multipart Responses
-            let {firstLine: veryFirstLine, rest} = this.readAndDeleteFirstLineOfBuffer(data);
+            // Handle Multipart Responses
+            const {firstLine: veryFirstLine, rest} = this.readAndDeleteFirstLineOfBuffer(data);
             if (veryFirstLine.toString().indexOf('HTTP') > -1) {
                 let socketID = '',
                     contentLength = '0',
@@ -267,8 +267,8 @@ export default class TCP extends EventEmitter {
                     rests = rest;
 
                 while (true) {
-                    let {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(rests);
-                    let currentLine = firstLine.toString('utf8');
+                    const {firstLine, rest} = this.readAndDeleteFirstLineOfBuffer(rests);
+                    const currentLine = firstLine.toString('utf8');
                     rests = rest;
                     if (currentLine.indexOf('X-Real-Socket-ID') > -1)
                         socketID = this.readHeaderValue(currentLine);
@@ -343,12 +343,12 @@ export default class TCP extends EventEmitter {
      * @method Closes the server
      */
     public close(callback?: () => void) {
-        for (let connection of this.TCPConnectionPool)
+        for (const connection of this.TCPConnectionPool)
             connection.emit('close');
 
         this.TCPServer.close(callback);
 
-        for (let socketID in this.connections)
+        for (const socketID in this.connections)
             this.connections[socketID].emit('close');
     }
 
@@ -359,8 +359,8 @@ export default class TCP extends EventEmitter {
      * @returns {Array}
      */
     public sendNotification(socketIDs: string[], notification: string): string[] {
-        let sent = [];
-        for (let socketID of socketIDs) {
+        const sent = [];
+        for (const socketID of socketIDs) {
             if (this.connections[socketID]) {
                 this.connections[socketID].sendNotification(notification);
                 sent.push(socketID);
@@ -374,8 +374,8 @@ export default class TCP extends EventEmitter {
      * @param clientID
      */
     public revokeConnections(clientID: string) {
-        for (let index in this.connections) {
-            let connection = this.connections[index];
+        for (const index in this.connections) {
+            const connection = this.connections[index];
             if (connection.clientID == clientID) {
                 connection.isAuthenticated = false;
                 connection.isAdmin = false;

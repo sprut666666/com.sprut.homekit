@@ -55,6 +55,10 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 
 ### Changelog
 
+#### 1.3.0
+- update has-node@0.4.5
+- update athom-api@2.0.91
+
 #### 1.2.4
 - update has-node@0.3.4
 

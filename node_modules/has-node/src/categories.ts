@@ -28,4 +28,4 @@ export enum categories {
     airconditioner = 21,
     humidifer = 22,
     dehumidifier = 23
-};
+}

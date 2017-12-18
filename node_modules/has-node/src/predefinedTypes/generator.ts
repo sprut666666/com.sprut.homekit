@@ -4,20 +4,20 @@
  * @licence Apache2
  */
 
-//Data is taken from https://raw.githubusercontent.com/brutella/hc/master/gen/metadata.json
+// Data is taken from https://raw.githubusercontent.com/brutella/hc/master/gen/metadata.json
 
-let data = require('./data');
+const data = require('./data');
 import * as FS from 'fs';
 
 function undefinedOrString(value: any): string {
-    if (value == undefined || value == null)
+    if (value == undefined || value == undefined)
         return 'undefined';
     else
         return `"${value}"`;
 }
 
 function undefinedOrArray(value: any, isString: boolean = false): string {
-    if (value == undefined || value == null)
+    if (value == undefined || value == undefined)
         return 'undefined';
     else
         return isString ? `['${value.join("', '")}']` : `[${value.join(', ')}]`;
@@ -28,25 +28,25 @@ function getFunctionName(name: string): string {
     return name;
 }
 
-let codes = ['//This file is generated automatically', '//Data is taken from https://raw.githubusercontent.com/brutella/hc/master/gen/metadata.json', "import Characteristic from '../characteristic';", "import {OnWrite} from '../characteristic';", "import Service from '../service';", "", "//Characteristics"];
+const codes = ['// This file is generated automatically', '// Data is taken from https://raw.githubusercontent.com/brutella/hc/master/gen/metadata.json', "import Characteristic from '../characteristic';", "import {OnWrite} from '../characteristic';", "import Service from '../service';", "", "// Characteristics"];
 
-for (let characteristic of data.Characteristics) {
-    let type = characteristic.UUID;
-    let valueFormat = characteristic.Format.replace(/^int32$/g, 'int');
-    let isHidden = false;
-    let hasNotifications = characteristic.Properties.indexOf('cnotify') > -1;
-    let hasValue = characteristic.Properties.indexOf('read') > -1;
-    let isReadonly = characteristic.Properties.indexOf('write') <= -1;
-    let additionalAuthorization = false;
-    let valueUnit = characteristic.Unit;
-    let description = characteristic.Name;
-    let minValue = characteristic.Constraints ? characteristic.Constraints.MinimumValue : undefined;
-    let maxValue = characteristic.Constraints ? characteristic.Constraints.MaximumValue : undefined;
-    let stepValue = characteristic.Constraints ? characteristic.Constraints.StepValue : undefined;
-    let maxLength = undefined;
-    let validValues = (characteristic.Constraints && (characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits)) ? Object.keys(characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits).map(value => parseInt(value)) : undefined;
-    let validRangeValues = undefined;
-    let code = `export function ${getFunctionName(description)}(ID: number, value: any, onWrite?: OnWrite): Characteristic {
+for (const characteristic of data.Characteristics) {
+    const type = characteristic.UUID;
+    const valueFormat = characteristic.Format.replace(/^int32$/g, 'int');
+    const isHidden = false;
+    const hasNotifications = characteristic.Properties.indexOf('cnotify') > -1;
+    const hasValue = characteristic.Properties.indexOf('read') > -1;
+    const isReadonly = characteristic.Properties.indexOf('write') <= -1;
+    const additionalAuthorization = false;
+    const valueUnit = characteristic.Unit;
+    const description = characteristic.Name;
+    const minValue = characteristic.Constraints ? characteristic.Constraints.MinimumValue : undefined;
+    const maxValue = characteristic.Constraints ? characteristic.Constraints.MaximumValue : undefined;
+    const stepValue = characteristic.Constraints ? characteristic.Constraints.StepValue : undefined;
+    const maxLength = undefined;
+    const validValues = (characteristic.Constraints && (characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits)) ? Object.keys(characteristic.Constraints.ValidValues || characteristic.Constraints.ValidBits).map(value => parseInt(value)) : undefined;
+    const validRangeValues = undefined;
+    const code = `export function ${getFunctionName(description)}(ID: number, value: any, onWrite?: OnWrite): Characteristic {
     let characteristic = new Characteristic(ID, '${type}', '${valueFormat}', ${isHidden}, ${hasNotifications}, ${hasValue}, ${isReadonly}, ${additionalAuthorization}, ${undefinedOrString(valueUnit)}, ${undefinedOrString(description)}, ${minValue}, ${maxValue}, ${stepValue}, ${maxLength}, ${undefinedOrArray(validValues)}, ${validRangeValues});
     if (value != null && value != undefined)
         characteristic.setValue(value);
@@ -59,13 +59,13 @@ for (let characteristic of data.Characteristics) {
 }
 
 codes.push("");
-codes.push("//Services");
+codes.push("// Services");
 
-for (let service of data.Services) {
-    let type = service.UUID;
-    let name = service.Name;
+for (const service of data.Services) {
+    const type = service.UUID;
+    const name = service.Name;
 
-    let code = `export function ${getFunctionName(name)}(ID: number, characteristics: Characteristic[], isHidden: boolean = false, isPrimary: boolean = false, linkedServices: number[] = []): Service {
+    const code = `export function ${getFunctionName(name)}(ID: number, characteristics: Characteristic[], isHidden: boolean = false, isPrimary: boolean = false, linkedServices: number[] = []): Service {
     let service = new Service(ID, '${type}', isHidden, isPrimary, linkedServices);
     
     let requiredCharacteristics = ${undefinedOrArray(service.RequiredCharacteristics, true)};

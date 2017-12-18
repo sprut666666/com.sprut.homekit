@@ -22,12 +22,12 @@ import Characteristic from './characteristic';
 export default function (server: HAS): express.Express {
     const app: express.Express = express();
 
-    //Decode TLV request body if exists / Set real TCP socket
+    // Decode TLV request body if exists / Set real TCP socket
     app.use((req: any, res, next) => {
 
-        //TCP connection should stay open as lang as it wants to
+        // TCP connection should stay open as lang as it wants to
         req.socket.setTimeout(0);
-        req.socket.setKeepAlive(true, 1800000); //30 Minutes
+        req.socket.setKeepAlive(true, 1800000); // 30 Minutes
 
         if (!req.headers['x-real-socket-id']) {
             res.end();
@@ -60,30 +60,30 @@ export default function (server: HAS): express.Express {
         extended: false
     }));
 
-    //Pair Setup
+    // Pair Setup
     app.post('/pair-setup', (req: any, res) => {
-        //console.log(req.body, req.realSocket.ID);
+        // console.log(req.body, req.realSocket.ID);
         res.header('Content-Type', 'application/pairing+tlv8');
 
-        let currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
+        const currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
 
-        //Sent parameters can be wrong, So we have to be ready for errors
+        // Sent parameters can be wrong, So we have to be ready for errors
         try {
-            //Server is already paired
+            // Server is already paired
             if (server.config.statusFlag != 0x01) {
                 res.end(encodeTLVError(TLVEnums.TLVErrors.unavailable, currentState));
                 return;
             }
 
-            //Too much failed tries / Server needs to be restarted
+            // Too much failed tries / Server needs to be restarted
             if (server.config.failedAuthCounter > 100) {
                 res.end(encodeTLVError(TLVEnums.TLVErrors.maxTries, currentState));
                 return;
             }
 
-            //M1 <iOS> -> M2 <Server>
+            // M1 <iOS> -> M2 <Server>
             if (currentState === 0x01) {
-                //Another pairing is already in progress
+                // Another pairing is already in progress
                 if (server.config.lastPairStepTime && new Date().getTime() - server.config.lastPairStepTime.getTime() < 30000 && server.config.SRP && server.config.SRP.socketID !== req.realSocket.ID) {
                     res.end(encodeTLVError(TLVEnums.TLVErrors.busy, currentState));
                     return;
@@ -108,13 +108,13 @@ export default function (server: HAS): express.Express {
 
             server.config.lastPairStepTime = new Date();
 
-            //M1&M2 is passed but we don't have an SRP object yet!
+            // M1&M2 is passed but we don't have an SRP object yet!
             if (!server.config.SRP) {
                 res.end(encodeTLVError(TLVEnums.TLVErrors.unknown, currentState));
                 return;
             }
 
-            //M3 <iOS> -> M4 <Server>
+            // M3 <iOS> -> M4 <Server>
             if (currentState === 0x03) {
                 server.config.SRP.setClientPublicKey(req.body.TLV[TLVEnums.TLVValues.publicKey]);
                 if (server.config.SRP.checkClientProof(req.body.TLV[TLVEnums.TLVValues.proof])) {
@@ -135,31 +135,31 @@ export default function (server: HAS): express.Express {
                 return;
             }
 
-            //M5 <iOS> -> M6 <Server>
+            // M5 <iOS> -> M6 <Server>
             if (currentState === 0x05) {
-                let body = req.body.TLV[TLVEnums.TLVValues.encryptedData],
+                const body = req.body.TLV[TLVEnums.TLVValues.encryptedData],
                     encryptedData = body.slice(0, body.length - 16),
                     tag = body.slice(body.length - 16),
                     key = HKDF(server.config.SRP.getSessionKey());
 
-                let data = ChaCha.decrypt(key, 'PS-Msg05', tag, encryptedData);
+                const data = ChaCha.decrypt(key, 'PS-Msg05', tag, encryptedData);
                 if (data === false)
                     res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
                 else {
-                    let info = parseTLV(data as Buffer);
+                    const info = parseTLV(data as Buffer);
 
-                    let iOSDeviceInfo = Buffer.concat([HKDF(server.config.SRP.getSessionKey(), 'Pair-Setup-Controller-Sign-Salt', 'Pair-Setup-Controller-Sign-Info'), info[TLVEnums.TLVValues.identifier], info[TLVEnums.TLVValues.publicKey]]);
+                    const iOSDeviceInfo = Buffer.concat([HKDF(server.config.SRP.getSessionKey(), 'Pair-Setup-Controller-Sign-Salt', 'Pair-Setup-Controller-Sign-Info'), info[TLVEnums.TLVValues.identifier], info[TLVEnums.TLVValues.publicKey]]);
 
                     if (Ed25519.Verify(iOSDeviceInfo, info[TLVEnums.TLVValues.signature], info[TLVEnums.TLVValues.publicKey])) {
                         server.config.addPairing(info[TLVEnums.TLVValues.identifier], info[TLVEnums.TLVValues.publicKey], true);
                         server.config.failedAuthCounter = 0;
 
-                        let accessoryInfo = Buffer.concat([HKDF(server.config.SRP.getSessionKey(), 'Pair-Setup-Accessory-Sign-Salt', 'Pair-Setup-Accessory-Sign-Info'), Buffer.from(server.config.deviceID), server.config.publicKey]);
-                        let accessorySignature = Ed25519.Sign(accessoryInfo, server.config.privateKey);
+                        const accessoryInfo = Buffer.concat([HKDF(server.config.SRP.getSessionKey(), 'Pair-Setup-Accessory-Sign-Salt', 'Pair-Setup-Accessory-Sign-Info'), Buffer.from(server.config.deviceID), server.config.publicKey]);
+                        const accessorySignature = Ed25519.Sign(accessoryInfo, server.config.privateKey);
 
                         server.config.SRP = undefined;
 
-                        let plainTLV = encodeTLV([
+                        const plainTLV = encodeTLV([
                             {
                                 key: TLVEnums.TLVValues.identifier,
                                 value: server.config.deviceID
@@ -194,28 +194,28 @@ export default function (server: HAS): express.Express {
         }
     });
 
-    //Pair Verify
+    // Pair Verify
     app.post('/pair-verify', (req: any, res) => {
-        //console.log(req.body, req.realSocket.ID);
+        // onsole.log(req.body, req.realSocket.ID);
         res.header('Content-Type', 'application/pairing+tlv8');
 
-        let currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
+        const currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
 
-        //Sent parameters can be wrong, So we have to be ready for errors
+        // Sent parameters can be wrong, So we have to be ready for errors
         try {
-            //M1 <iOS> -> M2 <Server>
+            // M1 <iOS> -> M2 <Server>
             if (currentState === 0x01) {
                 let secretKey = Buffer.alloc(32);
                 secretKey = Curve25519.makeSecretKey(secretKey);
 
-                let publicKey = Curve25519.derivePublicKey(secretKey),
+                const publicKey = Curve25519.derivePublicKey(secretKey),
                     sharedKey = Curve25519.deriveSharedSecret(secretKey, req.body.TLV[TLVEnums.TLVValues.publicKey]);
 
-                let accessoryInfo = Buffer.concat([publicKey, Buffer.from(server.config.deviceID), req.body.TLV[TLVEnums.TLVValues.publicKey]]);
+                const accessoryInfo = Buffer.concat([publicKey, Buffer.from(server.config.deviceID), req.body.TLV[TLVEnums.TLVValues.publicKey]]);
 
-                let accessorySignature = Ed25519.Sign(accessoryInfo, server.config.privateKey);
+                const accessorySignature = Ed25519.Sign(accessoryInfo, server.config.privateKey);
 
-                let plainTLV = encodeTLV([
+                const plainTLV = encodeTLV([
                     {
                         key: TLVEnums.TLVValues.identifier,
                         value: server.config.deviceID
@@ -226,7 +226,7 @@ export default function (server: HAS): express.Express {
                     }
                 ]);
 
-                let sessionKey = HKDF(sharedKey, 'Pair-Verify-Encrypt-Salt', 'Pair-Verify-Encrypt-Info');
+                const sessionKey = HKDF(sharedKey, 'Pair-Verify-Encrypt-Salt', 'Pair-Verify-Encrypt-Info');
 
                 req.realSocket.HAPEncryption = {
                     serverSecretKey: secretKey,
@@ -253,30 +253,30 @@ export default function (server: HAS): express.Express {
                 return;
             }
 
-            //M1&M2 is passed but we don't have an HAPEncryption object yet!
+            // M1&M2 is passed but we don't have an HAPEncryption object yet!
             if (!req.realSocket.HAPEncryption) {
                 res.end(encodeTLVError(TLVEnums.TLVErrors.unknown, currentState));
                 return;
             }
 
-            //M3 <iOS> -> M4 <Server>
+            // M3 <iOS> -> M4 <Server>
             if (currentState === 0x03) {
-                let body = req.body.TLV[TLVEnums.TLVValues.encryptedData],
+                const body = req.body.TLV[TLVEnums.TLVValues.encryptedData],
                     encryptedData = body.slice(0, body.length - 16),
                     tag = body.slice(body.length - 16);
 
-                let data = ChaCha.decrypt(req.realSocket.HAPEncryption.sessionKey, 'PV-Msg03', tag, encryptedData);
+                const data = ChaCha.decrypt(req.realSocket.HAPEncryption.sessionKey, 'PV-Msg03', tag, encryptedData);
                 if (data === false)
                     res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
                 else {
-                    let info = parseTLV(data as Buffer);
+                    const info = parseTLV(data as Buffer);
 
                     let pairing = server.config.getPairings(info[TLVEnums.TLVValues.identifier]);
                     if (pairing === false)
                         res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
                     else {
                         pairing = pairing as Pairing;
-                        let iOSDeviceInfo = Buffer.concat([req.realSocket.HAPEncryption.clientPublicKey, info[TLVEnums.TLVValues.identifier], req.realSocket.HAPEncryption.serverPublicKey]);
+                        const iOSDeviceInfo = Buffer.concat([req.realSocket.HAPEncryption.clientPublicKey, info[TLVEnums.TLVValues.identifier], req.realSocket.HAPEncryption.serverPublicKey]);
                         if (Ed25519.Verify(iOSDeviceInfo, info[TLVEnums.TLVValues.signature], Buffer.from(pairing.publicKey, 'hex'))) {
                             req.realSocket.HAPEncryption.accessoryToControllerKey = HKDF(req.realSocket.HAPEncryption.sharedKey, 'Control-Salt', 'Control-Read-Encryption-Key');
                             req.realSocket.HAPEncryption.controllerToAccessoryKey = HKDF(req.realSocket.HAPEncryption.sharedKey, 'Control-Salt', 'Control-Write-Encryption-Key');
@@ -304,7 +304,7 @@ export default function (server: HAS): express.Express {
         }
     });
 
-    //List of Accessories
+    // List of Accessories
     app.get('/accessories', (req: any, res) => {
         res.header('Content-Type', 'application/hap+json');
 
@@ -315,28 +315,28 @@ export default function (server: HAS): express.Express {
             return;
         }
 
-        let accessoriesObject = server.getAccessories(),
+        const accessoriesObject = server.getAccessories(),
             accessories = [];
-        for (let index in accessoriesObject)
+        for (const index in accessoriesObject)
             accessories.push(accessoriesObject[index].toJSON());
         res.end(JSON.stringify({
             accessories: accessories
         }));
     });
 
-    //Add or remove a pairing
+    // Add or remove a pairing
     app.post('/pairings', (req: any, res) => {
-        //console.log(req.body, req.realSocket.ID);
+        // console.log(req.body, req.realSocket.ID);
         res.header('Content-Type', 'application/pairing+tlv8');
 
-        let currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
+        const currentState = (req.body.TLV[TLVEnums.TLVValues.state]) ? parseInt(req.body.TLV[TLVEnums.TLVValues.state].toString('hex')) : 0x00;
 
         if (!req.realSocket.isAuthenticated || !req.realSocket.HAPEncryption.isAdmin) {
             res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
             return;
         }
 
-        //Add New Pairing
+        // Add New Pairing
         if (req.body.TLV[TLVEnums.TLVValues.method].toString('hex') == TLVEnums.TLVMethods.addPairing) {
             let pairing = server.config.getPairings(req.body.TLV[TLVEnums.TLVValues.identifier]);
             if (pairing === false) {
@@ -358,9 +358,9 @@ export default function (server: HAS): express.Express {
                 } else
                     res.end(encodeTLVError(TLVEnums.TLVErrors.unknown, currentState));
             }
-            //Remove Pairing
+            // Remove Pairing
         } else if (req.body.TLV[TLVEnums.TLVValues.method].toString('hex') == TLVEnums.TLVMethods.removePairing) {
-            let pairing = server.config.getPairings(req.body.TLV[TLVEnums.TLVValues.identifier]);
+            const pairing = server.config.getPairings(req.body.TLV[TLVEnums.TLVValues.identifier]);
             if (pairing === false)
                 res.end(encodeTLVError(TLVEnums.TLVErrors.unknown, currentState));
             else {
@@ -376,27 +376,28 @@ export default function (server: HAS): express.Express {
             res.end();
     });
 
-    //List of Pairings
+    // List of Pairings
     app.get('/pairings', (req: any, res) => {
         console.log(req.body, req.realSocket.ID);
         res.header('Content-Type', 'application/pairing+tlv8');
 
-        let currentState = 1;
+        const currentState = 1;
 
         if (!req.realSocket.isAuthenticated || !req.realSocket.HAPEncryption.isAdmin) {
             res.end(encodeTLVError(TLVEnums.TLVErrors.authentication, currentState));
             return;
         }
 
-        let pairings = server.config.getPairings() as Pairings,
+        let offset = 0;
+        const pairings = server.config.getPairings() as Pairings,
             response: TLVITem[] = [{
                 key: TLVEnums.TLVValues.state,
                 value: currentState + 1
             }],
-            offset = 0,
             total = Object.keys(pairings).length;
-        for (let index in pairings) {
-            let pairing = pairings[index];
+
+        for (const index in pairings) {
+            const pairing = pairings[index];
 
             response.push({
                 key: TLVEnums.TLVValues.identifier,
@@ -421,9 +422,9 @@ export default function (server: HAS): express.Express {
         res.end(response);
     });
 
-    //Read value of characteristics
+    // Read value of characteristics
     app.get('/characteristics', (req: any, res) => {
-        //console.log(req.body, req.realSocket.ID);
+        // console.log(req.body, req.realSocket.ID);
         res.header('Content-Type', 'application/hap+json');
 
         if (!req.realSocket.isAuthenticated) {
@@ -433,24 +434,25 @@ export default function (server: HAS): express.Express {
             return;
         }
 
-        let characteristics2Read = req.query.id.split(',');
+        const characteristics2Read = req.query.id.split(',');
 
-        let characteristics: { [index: string]: any }[] = [],
-            allOK = true;
+        let allOK = true;
+        const characteristics: { [index: string]: any }[] = [];
 
         for (let characteristic of characteristics2Read) {
             characteristic = characteristic.split('.');
-            let accessoryID = parseInt(characteristic[0]),
+            const accessoryID = parseInt(characteristic[0]),
                 characteristicID = parseInt(characteristic[1]);
 
-            let object: { [index: string]: any } = {
+            const object: { [index: string]: any } = {
                 aid: accessoryID,
                 iid: characteristicID
             };
 
-            let accessory = server.getAccessories()[accessoryID],
-                error = null,
+            let error = null,
                 value = null;
+            const accessory = server.getAccessories()[accessoryID];
+
             if (accessory) {
                 let characteristic = accessory.getCharacteristic(characteristicID);
                 if (characteristic) {
@@ -488,7 +490,7 @@ export default function (server: HAS): express.Express {
         }
 
         if (allOK) {
-            for (let characteristic of characteristics)
+            for (const characteristic of characteristics)
                 delete characteristic['status'];
         }
 
@@ -497,9 +499,9 @@ export default function (server: HAS): express.Express {
         }));
     });
 
-    //Write value of characteristics
+    // Write value of characteristics
     app.put('/characteristics', async (req: any, res) => {
-        //console.log(req.body);
+        // console.log(req.body);
         res.header('Content-Type', 'application/hap+json');
 
         if (!req.realSocket.isAuthenticated) {
@@ -509,18 +511,18 @@ export default function (server: HAS): express.Express {
             return;
         }
 
-        let characteristics: {}[] = [],
-            allOK = true;
+        let allOK = true;
+        const characteristics: {}[] = [];
 
         await Promise.all(req.body.characteristics.map(async (characteristic: any) => {
-            let accessoryID = parseInt(characteristic.aid),
+            const accessoryID = parseInt(characteristic.aid),
                 characteristicID = parseInt(characteristic.iid),
                 value = characteristic.value,
                 event = characteristic.ev,
                 authData = characteristic.authData;
 
-            let accessory = server.getAccessories()[accessoryID],
-                error = null;
+            let error = null;
+            const accessory = server.getAccessories()[accessoryID];
 
             if (accessory) {
                 let characteristic = accessory.getCharacteristic(characteristicID);
@@ -535,7 +537,7 @@ export default function (server: HAS): express.Express {
                         if (event === false)
                             characteristic.unsubscribe(req.realSocket.ID);
 
-                        if (value != null && value != undefined) {
+                        if (value != undefined && value != undefined) {
                             try {
                                 await characteristic.writeValue(value, authData);
                             } catch (e) {
@@ -548,7 +550,7 @@ export default function (server: HAS): express.Express {
             } else
                 error = TLVEnums.statusCodes.notFound;
 
-            let object: { [index: string]: any } = {
+            const object: { [index: string]: any } = {
                 aid: accessoryID,
                 iid: characteristicID
             };
@@ -570,11 +572,11 @@ export default function (server: HAS): express.Express {
 
     });
 
-    //Accessory Identify (Only when device is unpaired)
+    // Accessory Identify (Only when device is unpaired)
     app.get('/identify', (req: any, res) => {
         res.header('Content-Type', 'application/hap+json');
 
-        //Server is already paired
+        // Server is already paired
         if (server.config.statusFlag != 0x01) {
             res.status(400).end(JSON.stringify({
                 status: TLVEnums.statusCodes.insufficientPrivilege
@@ -599,4 +601,4 @@ export default function (server: HAS): express.Express {
     });
 
     return app;
-};
+}

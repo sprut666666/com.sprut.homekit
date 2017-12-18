@@ -6,14 +6,14 @@
 
 import * as HAS from '../';
 
-let config = new HAS.Config('NodeJS Fan', '82:E6:B6:63:BC:2C', HAS.categories.fan, __dirname + '/fan.json', 8091, '200-20-200');
+const config = new HAS.Config('NodeJS Fan', '82:E6:B6:63:BC:2C', HAS.categories.fan, __dirname + '/fan.json', 8091, '200-20-200');
 
-let server = new HAS.Server(config);
+const server = new HAS.Server(config);
 
-//Fan
-let fan = new HAS.Accessory(1);
+// Fan
+const fan = new HAS.Accessory(1);
 
-let fanIdentify = HAS.predefined.Identify(1, undefined, (value, callback) => {
+const fanIdentify = HAS.predefined.Identify(1, undefined, (value, callback) => {
         console.log('Fan Identify', value);
         callback(HAS.statusCodes.OK);
     }),
@@ -25,7 +25,7 @@ let fanIdentify = HAS.predefined.Identify(1, undefined, (value, callback) => {
 fan.addServices(HAS.predefined.AccessoryInformation(1, [fanIdentify, fanManufacturer, fanModel, fanName, fanSerialNumber, fanFirmwareVersion]));
 
 
-let on = HAS.predefined.On(1, false, (value, callback) => {
+const on = HAS.predefined.On(1, false, (value, callback) => {
     console.log('Fan Status', value);
     callback(HAS.statusCodes.OK);
 });
@@ -33,8 +33,8 @@ fan.addServices(HAS.predefined.Fan(2, [on]));
 
 server.addAccessory(fan);
 
-//server.onIdentify will be used only when server is not paired, If server is paired identify.onWrite will be used
+// server.onIdentify will be used only when server is not paired, If server is paired identify.onWrite will be used
 server.onIdentify = fanIdentify.onWrite;
 
-//Starts the server
+// Starts the server
 server.startServer();

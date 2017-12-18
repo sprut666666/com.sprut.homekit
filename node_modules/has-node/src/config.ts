@@ -12,12 +12,12 @@ const Ed25519 = require('ed25519');
 import HAS from './HAS';
 
 export interface Pairing {
-    publicKey: string,
-    isAdmin: boolean
+    publicKey: string;
+    isAdmin: boolean;
 }
 
 export interface Pairings {
-    [ID: string]: Pairing
+    [ID: string]: Pairing;
 }
 
 /**
@@ -197,12 +197,12 @@ export default class Config {
      * @method Reads current config file
      */
     private readConfig() {
-        let config = JSON.parse(FS.readFileSync(this.configDir, 'utf8'));
+        const config = JSON.parse(FS.readFileSync(this.configDir, 'utf8'));
         if (config) {
             this.CCN = config.CCN;
             this.pairings = config.pairings || {};
 
-            //Update status flag to avoid new pairings
+            // Update status flag to avoid new pairings
             if (Object.keys(this.pairings).length > 0)
                 this.statusFlag = 0x00;
 
@@ -221,10 +221,10 @@ export default class Config {
      * @method Creates new config file
      */
     private writeConfig() {
-        //Generate Ed25519 Keys
+        // Generate Ed25519 Keys
         if (!this.publicKey || !this.privateKey) {
-            let seed = crypto.randomBytes(32);
-            let keyPair = Ed25519.MakeKeypair(seed);
+            const seed = crypto.randomBytes(32);
+            const keyPair = Ed25519.MakeKeypair(seed);
             this.publicKey = keyPair.publicKey;
             this.privateKey = keyPair.privateKey;
         }
@@ -286,7 +286,7 @@ export default class Config {
      * @param isAdmin
      */
     public addPairing(ID: Buffer, publicKey: Buffer, isAdmin: boolean) {
-        let IDString = ID.toString('utf8');
+        const IDString = ID.toString('utf8');
 
         if (this.pairings[IDString]) {
             throw new Error('ID already exists.');
@@ -297,7 +297,7 @@ export default class Config {
             isAdmin: isAdmin
         };
 
-        //Update status flag to avoid new pairings
+        // Update status flag to avoid new pairings
         if (isAdmin) {
             this.statusFlag = 0x00;
             this.server.updateBonjour();
@@ -311,7 +311,7 @@ export default class Config {
      * @param ID
      */
     public removePairing(ID: Buffer) {
-        let IDString = ID.toString('utf8');
+        const IDString = ID.toString('utf8');
 
         if (!this.pairings[IDString]) {
             throw new Error('ID does NOT exists.');
@@ -319,7 +319,7 @@ export default class Config {
 
         delete this.pairings[IDString];
 
-        //Update status flag to make pairing available again
+        // Update status flag to make pairing available again
         if (Object.keys(this.pairings).length <= 0) {
             this.statusFlag = 0x01;
             this.server.updateBonjour();
@@ -334,7 +334,7 @@ export default class Config {
      * @param isAdmin
      */
     public updatePairing(ID: Buffer, isAdmin: boolean) {
-        let IDString = ID.toString('utf8');
+        const IDString = ID.toString('utf8');
 
         if (!this.pairings[IDString])
             throw new Error('ID does NOT exists.');
@@ -350,7 +350,7 @@ export default class Config {
      */
     public getPairings(ID?: Buffer): Pairing | Pairings | boolean {
         if (ID) {
-            let IDString = ID.toString('utf8');
+            const IDString = ID.toString('utf8');
 
             if (!this.pairings[IDString])
                 return false;
@@ -365,12 +365,12 @@ export default class Config {
      */
     private setLastAssignedHASIDIfNeeded() {
         if (!this.UUIDMap['lastAssignedID']) {
-            let values = [0];
+            const values = [0];
 
-            for (let UUID in this.UUIDMap)
+            for (const UUID in this.UUIDMap)
                 values.push(this.UUIDMap[UUID]);
 
-            let lastID = Math.max(...values);
+            const lastID = Math.max(...values);
 
             this.UUIDMap['lastAssignedID'] = lastID;
         }

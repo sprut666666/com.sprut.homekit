@@ -12,8 +12,8 @@ export interface TLVITem {
 }
 
 export function encodeTLV(TLVItems: TLVITem[]): Buffer {
-    let buffers: Buffer[] = [];
-    for (let item of TLVItems) {
+    const buffers: Buffer[] = [];
+    for (const item of TLVItems) {
         let buffer;
         if (Buffer.isBuffer(item.value))
             buffer = item.value;
@@ -24,7 +24,7 @@ export function encodeTLV(TLVItems: TLVITem[]): Buffer {
         if (buffer.length > 255) {
             let offset = 0;
             while (true) {
-                let iBuffer = buffer.slice(offset, offset + 255);
+                const iBuffer = buffer.slice(offset, offset + 255);
                 buffers.push(Buffer.concat([Buffer.from([item.key, iBuffer.length]), iBuffer]));
                 offset += iBuffer.length;
                 if (offset + 1 >= buffer.length)

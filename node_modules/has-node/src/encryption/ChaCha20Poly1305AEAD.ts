@@ -8,9 +8,9 @@ const ChaCha = require('chacha-native');
 
 export function decrypt(key: Buffer, nonceString: string, tag: Buffer, encryptedData: Buffer): Buffer | boolean {
     try {
-        let nonce = Buffer.alloc(12);
+        const nonce = Buffer.alloc(12);
         Buffer.from(nonceString).copy(nonce, 4);
-        let decipher = new ChaCha.aead(key, nonce, true);
+        const decipher = new ChaCha.aead(key, nonce, true);
         decipher.setAuthTag(tag);
         return Buffer.concat([decipher.update(encryptedData), decipher.final()]);
     } catch (e) {
@@ -20,17 +20,17 @@ export function decrypt(key: Buffer, nonceString: string, tag: Buffer, encrypted
 }
 
 export function encrypt(key: Buffer, nonceString: string, plainData: Buffer): Buffer {
-    let nonce = Buffer.alloc(12);
+    const nonce = Buffer.alloc(12);
     Buffer.from(nonceString).copy(nonce, 4);
-    let cipher = new ChaCha.aead(key, nonce);
+    const cipher = new ChaCha.aead(key, nonce);
 
-    let encrypted = Buffer.concat([cipher.update(plainData), cipher.final()]);
+    const encrypted = Buffer.concat([cipher.update(plainData), cipher.final()]);
     return Buffer.concat([encrypted, cipher.getAuthTag()]);
 }
 
 export function expertDecrypt(key: Buffer, nonce: Buffer, tag: Buffer, data: Buffer, AAD: Buffer): Buffer | boolean {
     try {
-        let decipher = new ChaCha.aead(key, nonce, true);
+        const decipher = new ChaCha.aead(key, nonce, true);
         decipher.setAAD(AAD);
         decipher.setAuthTag(tag);
         return Buffer.concat([decipher.update(data), decipher.final()]);
@@ -41,8 +41,8 @@ export function expertDecrypt(key: Buffer, nonce: Buffer, tag: Buffer, data: Buf
 }
 
 export function expertEncrypt(key: Buffer, nonce: Buffer, plainData: Buffer, AAD: Buffer): Buffer {
-    let cipher = new ChaCha.aead(key, nonce);
+    const cipher = new ChaCha.aead(key, nonce);
     cipher.setAAD(AAD);
-    let encrypted = Buffer.concat([cipher.update(plainData), cipher.final()]);
+    const encrypted = Buffer.concat([cipher.update(plainData), cipher.final()]);
     return Buffer.concat([encrypted, cipher.getAuthTag()]);
 }

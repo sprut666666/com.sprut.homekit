@@ -5,10 +5,10 @@
  */
 
 export default function parseTLV(buffer: Buffer): { [index: number]: Buffer } {
-    let TLV: { [index: number]: Buffer } = {},
-        currentIndex = 0;
+    const TLV: { [index: number]: Buffer } = {};
+    let currentIndex = 0;
     while (currentIndex < buffer.length) {
-        let iBuffer = buffer.slice(currentIndex + 2, currentIndex + 2 + buffer[currentIndex + 1]);
+        const iBuffer = buffer.slice(currentIndex + 2, currentIndex + 2 + buffer[currentIndex + 1]);
         if (TLV[buffer[currentIndex]])
             TLV[buffer[currentIndex]] = Buffer.concat([TLV[buffer[currentIndex]], iBuffer]);
         else

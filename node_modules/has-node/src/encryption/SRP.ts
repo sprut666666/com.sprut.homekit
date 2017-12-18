@@ -124,7 +124,7 @@ export default class SRP {
         else
             throw new Error('Invalid Password');
 
-        //Create SRP Salt (s)
+        // Create SRP Salt (s)
         this.salt = crypto.randomBytes(16);
 
         this.createVerifier();
@@ -139,7 +139,7 @@ export default class SRP {
     private createB() {
         this.BPrivate = this.buffer2BigInt(crypto.randomBytes(32));
 
-        let BPublic = this.createK().multiply(this.buffer2BigInt(this.verifier)).add(this.generator.modPow(this.BPrivate, this.modules)).mod(this.modules);
+        const BPublic = this.createK().multiply(this.buffer2BigInt(this.verifier)).add(this.generator.modPow(this.BPrivate, this.modules)).mod(this.modules);
         this.BPublic = this.bigInt2Buffer(BPublic);
     }
 
@@ -156,8 +156,8 @@ export default class SRP {
      * @returns
      */
     public createXHash(): any {
-        let identityHash = crypto.createHash(this.hashFunction).update(this.username).update(Buffer.from(':')).update(this.password).digest();
-        let saltHash = crypto.createHash(this.hashFunction).update(this.salt).update(identityHash).digest();
+        const identityHash = crypto.createHash(this.hashFunction).update(this.username).update(Buffer.from(':')).update(this.password).digest();
+        const saltHash = crypto.createHash(this.hashFunction).update(this.salt).update(identityHash).digest();
         return this.buffer2BigInt(saltHash);
     }
 
@@ -222,7 +222,7 @@ export default class SRP {
      * @method Creates SRP M1 proof
      */
     private createM1Proof() {
-        let headerHash = crypto.createHash(this.hashFunction).update(this.bigInt2Buffer(this.modules)).digest(),
+        const headerHash = crypto.createHash(this.hashFunction).update(this.bigInt2Buffer(this.modules)).digest(),
             headerHelperHash = crypto.createHash(this.hashFunction).update(this.bigInt2Buffer(this.generator)).digest();
         for (let index = 0; index < headerHash.length; index++)
             headerHash[index] ^= headerHelperHash[index];
@@ -277,11 +277,11 @@ export default class SRP {
         if (!Buffer.isBuffer(input))
             input = this.bigInt2Buffer(input);
 
-        let length = this.length / 8;
-        let padding = length - input.length;
-        let result = Buffer.alloc(length);
+        const length = this.length / 8;
+        const padding = length - input.length;
+        const result = Buffer.alloc(length);
         result.fill(0, 0, padding);
         input.copy(result, padding);
         return result;
-    };
+    }
 }

@@ -206,6 +206,8 @@ Methods:
 
 * `characteristic.setValue(value)` Sets the value of characteristic.
 
+* `characteristic.getValue(parse: Boolean = false)` Returns value of characteristic.
+
 Properties:
 
 * `characteristic.onWrite`: ((value: any, callback: (status: HAS.statusCodes) => void, authData?: Buffer) => void) Set this function to handle value write requests.

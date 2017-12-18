@@ -83,7 +83,7 @@ export default class Accessory {
      * @param service
      */
     public addService(service: Service) {
-        let serviceID = service.getID();
+        const serviceID = service.getID();
 
         if (this.server)
             throw new Error('Server is already set: ' + serviceID);
@@ -104,7 +104,7 @@ export default class Accessory {
             throw  new Error('Primary service already exists.');
 
         if (service.getLinkedServices().length) {
-            for (let linkedServiceID of service.getLinkedServices()) {
+            for (const linkedServiceID of service.getLinkedServices()) {
                 if (!this.services[linkedServiceID])
                     throw new Error('Linked service does not exists on this accessory: ' + serviceID + ':' + linkedServiceID);
             }
@@ -122,7 +122,7 @@ export default class Accessory {
      * @param services
      */
     public addServices(...services: Service[]) {
-        for (let service of services)
+        for (const service of services)
             this.addService(service);
     }
 
@@ -153,14 +153,14 @@ export default class Accessory {
      * @returns {{[p: string]: any}}
      */
     public toJSON(): {} {
-        let services: {}[] = [];
-        for (let index in this.services) {
-            let JSON = this.services[index].toJSON();
+        const services: {}[] = [];
+        for (const index in this.services) {
+            const JSON = this.services[index].toJSON();
 
-            //To have a better API we are forcing unique IDs at just one level, But HAP needs IDs to be unique at both levels.
-            //We will use pairing function to generate unique numbers from serviceID and characteristicID to make IDs unique at both levels.
-            for (let characteristic of JSON.characteristics) {
-                let IID = this.getIID(JSON.iid, characteristic.iid);  //Pairing Function https://en.wikipedia.org/wiki/Pairing_function
+            // To have a better API we are forcing unique IDs at just one level, But HAP needs IDs to be unique at both levels.
+            // We will use pairing function to generate unique numbers from serviceID and characteristicID to make IDs unique at both levels.
+            for (const characteristic of JSON.characteristics) {
+                const IID = this.getIID(JSON.iid, characteristic.iid);  // Pairing Function https://en.wikipedia.org/wiki/Pairing_function
                 this.IIDMap[IID] = {
                     serviceID: JSON.iid,
                     characteristicID: characteristic.iid
@@ -168,11 +168,11 @@ export default class Accessory {
                 characteristic.iid = IID;
             }
 
-            //Both serviceID and characteristicID are in the range [1, 999]. Max(Pairing(serviceID, characteristicID)) would be 1,998,000
-            //To avoid having duplicated IDs in serviceIDs and characteristicIDs, we will add 2000000 to every service ID.
-            //1 is the ID of the information service and can not be changed / It is also less than Min(Pairing(serviceID, characteristicID)), Which would not be a problem
+            // Both serviceID and characteristicID are in the range [1, 999]. Max(Pairing(serviceID, characteristicID)) would be 1,998,000
+            // To avoid having duplicated IDs in serviceIDs and characteristicIDs, we will add 2000000 to every service ID.
+            // 1 is the ID of the information service and can not be changed / It is also less than Min(Pairing(serviceID, characteristicID)), Which would not be a problem
             JSON.iid = JSON.iid == 1 ? 1 : 2000000 + JSON.iid;
-            for (let index2 in JSON.linked)
+            for (const index2 in JSON.linked)
                 JSON.linked[index2] = JSON.linked[index2] == 1 ? 1 : 2000000 + JSON.linked[index2];
 
             services.push(JSON);
