@@ -55,6 +55,11 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 
 ### Changelog
 
+#### 1.3.2
+- update has-node@0.4.6
+- update athom-api@2.0.92
+- fix "No response"
+
 #### 1.3.1
 - update has-node@0.4.5
 - update athom-api@2.0.91

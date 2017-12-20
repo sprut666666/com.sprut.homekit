@@ -204,7 +204,7 @@ Parameters:
 
 Methods:
 
-* `characteristic.setValue(value)` Sets the value of characteristic.
+* `characteristic.setValue(value): Boolean` Sets the value of characteristic and returns result as boolean.
 
 * `characteristic.getValue(parse: Boolean = false)` Returns value of characteristic.
 
