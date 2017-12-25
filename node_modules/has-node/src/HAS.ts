@@ -31,14 +31,14 @@ export default class HAS {
     /**
      * @property HAS Config Helper
      * @public
-     * @requires
+     * @required
      */
     public config: Config;
 
     /**
      * @property Bonjour Helper
      * @public
-     * @requires
+     * @required
      */
     public bonjour: any;
 

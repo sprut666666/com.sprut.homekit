@@ -233,7 +233,7 @@ export default class SRP {
     /**
      * @method Checks client proof
      * @param clientProof
-     * @returns Boolean
+     * @returns boolean
      */
     public checkClientProof(clientProof: Buffer): boolean {
         return clientProof.toString('hex') === this.M1Proof.toString('hex');
