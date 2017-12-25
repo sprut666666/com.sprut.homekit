@@ -55,6 +55,10 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 
 ### Changelog
 
+#### 1.3.5
+- update has-node@0.4.9
+- critical fixes
+
 #### 1.3.3
 - update has-node@0.4.8
 

@@ -566,7 +566,7 @@ export default class Characteristic {
             perms: this.getPermissions(),
         };
 
-        if (this.isSet(this.value))
+        if (this.isSet(value))
             object['value'] = value;
 
         if (this.hasNotifications && !this.silentNotifications)
