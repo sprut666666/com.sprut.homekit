@@ -55,6 +55,12 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 
 ### Changelog
 
+#### 1.4.0
+- update has-node@0.4.11
+- update athom-api@2.0.93
+- Now you can add 150 devices
+- Memory optimization
+
 #### 1.3.5
 - update has-node@0.4.9
 - critical fixes
