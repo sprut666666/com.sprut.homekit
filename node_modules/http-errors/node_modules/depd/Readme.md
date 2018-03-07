@@ -6,6 +6,7 @@
 [![Linux Build][travis-image]][travis-url]
 [![Windows Build][appveyor-image]][appveyor-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
+[![Gratipay][gratipay-image]][gratipay-url]
 
 Deprecate all the things
 
@@ -278,3 +279,5 @@ deprecate.property(exports, 'oldprop', 'oldprop >= 0.10')
 [coveralls-url]: https://coveralls.io/r/dougwilson/nodejs-depd?branch=master
 [node-image]: https://img.shields.io/node/v/depd.svg
 [node-url]: https://nodejs.org/en/download/
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
+[gratipay-url]: https://www.gratipay.com/dougwilson/

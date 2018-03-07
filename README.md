@@ -1,6 +1,9 @@
 # HomeKit for Homey
 
-![Image of paircode](https://github.com/sprut666666/com.sprut.homekit/raw/master/settings/code.png)
+### Support for new exclusive services: [HomeCenter for HomeKit](https://itunes.apple.com/ru/app/homecenter-for-homekit/id1329662539?mt=8)
+![ScreenShot](https://github.com/sprut666666/graphics/blob/master/homecenter/ScreenShot.png)
+
+![Image of paircode](https://github.com/sprut666666/graphics/blob/master/homekit/code.png)
 
 After Homey is paired, go to "settings" -> "HomeKit". There select the devices you want to pair with "HomeKit" and wait =)
 Example of work: https://www.youtube.com/watch?v=yZWt6jDCl7E (New video from Homey the work)
@@ -37,6 +40,11 @@ Now supports the types:
 - Button (simple and Play/Pause etc)
 - Doorbell button (as Motion sensor)
 - Occupancy sensor
+- Atmospheric Pressure sensor
+- Noise Level sensor
+- Ultraviolet sensor
+- Power Meter sensor
+- Security System sensor
 
 + Battery service for all
 
@@ -54,6 +62,18 @@ And I [Sprut](https://github.com/sprut666666) - engaged in ongoing app developme
 ---
 
 ### Changelog
+
+#### 1.5.0
+- update has-node@0.4.13
+- update athom-api@2.0.108
+- Support temperature is less than zero
+- Fix Error: Homey Offline
+- Add lib new-types-for-homekit@1.0.1
+- Add support Atmospheric Pressure
+- Add support Noise Level
+- Add support Ultraviolet
+- Add support Power Meter
+- Add support Security System
 
 #### 1.4.0
 - update has-node@0.4.11

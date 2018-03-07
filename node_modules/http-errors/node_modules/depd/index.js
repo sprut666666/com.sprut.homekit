@@ -29,14 +29,15 @@ var basePath = process.cwd()
  */
 
 function containsNamespace (str, namespace) {
-  var vals = str.split(/[ ,]+/)
-  var ns = String(namespace).toLowerCase()
+  var val = str.split(/[ ,]+/)
 
-  for (var i = 0; i < vals.length; i++) {
-    var val = vals[i]
+  namespace = String(namespace).toLowerCase()
+
+  for (var i = 0; i < val.length; i++) {
+    if (!(str = val[i])) continue
 
     // namespace contained
-    if (val && (val === '*' || val.toLowerCase() === ns)) {
+    if (str === '*' || str.toLowerCase() === namespace) {
       return true
     }
   }
@@ -177,7 +178,6 @@ function log (message, site) {
   var caller
   var callFile
   var callSite
-  var depSite
   var i = 0
   var seen = false
   var stack = getStack()
@@ -185,15 +185,14 @@ function log (message, site) {
 
   if (site) {
     // provided site
-    depSite = site
     callSite = callSiteLocation(stack[1])
-    callSite.name = depSite.name
+    callSite.name = site.name
     file = callSite[0]
   } else {
     // get call site
     i = 2
-    depSite = callSiteLocation(stack[i])
-    callSite = depSite
+    site = callSiteLocation(stack[i])
+    callSite = site
   }
 
   // get caller of deprecated thing in relation to file
@@ -211,7 +210,7 @@ function log (message, site) {
   }
 
   var key = caller
-    ? depSite.join(':') + '__' + caller.join(':')
+    ? site.join(':') + '__' + caller.join(':')
     : undefined
 
   if (key !== undefined && key in this._warned) {
@@ -222,16 +221,15 @@ function log (message, site) {
   this._warned[key] = true
 
   // generate automatic message from call site
-  var msg = message
-  if (!msg) {
-    msg = callSite === depSite || !callSite.name
-      ? defaultMessage(depSite)
+  if (!message) {
+    message = callSite === site || !callSite.name
+      ? defaultMessage(site)
       : defaultMessage(callSite)
   }
 
   // emit deprecation if listeners exist
   if (haslisteners) {
-    var err = DeprecationError(this._namespace, msg, stack.slice(i))
+    var err = DeprecationError(this._namespace, message, stack.slice(i))
     process.emit('deprecation', err)
     return
   }
@@ -240,8 +238,8 @@ function log (message, site) {
   var format = process.stderr.isTTY
     ? formatColor
     : formatPlain
-  var output = format.call(this, msg, caller, stack.slice(i))
-  process.stderr.write(output + '\n', 'utf8')
+  var msg = format.call(this, message, caller, stack.slice(i))
+  process.stderr.write(msg + '\n', 'utf8')
 }
 
 /**
